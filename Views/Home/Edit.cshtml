@@ -1,0 +1,106 @@
+﻿@{
+    ViewData["Title"] = "Form";
+}
+@model Accident
+
+<form method="POST" asp-controller="Home" asp-action="Add">
+    <div class="form-group mb-1">
+        <input type="hidden" asp-for="@Model.Crash_ID" />
+
+        <label asp-for="@Model.Crash_Date_Time">Crash Date/Time:</label>
+        <input class="form-control" asp-for="@Model.Crash_Date_Time" />
+
+        <label asp-for="@Model.Route">Route:</label>
+        <input class="form-control" asp-for="@Model.Route" />
+
+        <label asp-for="@Model.MilePoint">Milepoint:</label>
+        <input class="form-control" asp-for="@Model.MilePoint" />
+
+        <label asp-for="@Model.Lat_Utm_Y">Latitude:</label>
+        <input class="form-control" asp-for="@Model.Lat_Utm_Y" />
+
+        <label asp-for="@Model.Long_Utm_Y">Longitude:</label>
+        <input class="form-control" asp-for="@Model.Long_Utm_Y" />
+
+        <label asp-for="@Model.Main_Road_Name">Main Road Name:</label>
+        <input class="form-control" asp-for="@Model.Main_Road_Name" />
+
+        <label asp-for="@Model.City">City:</label>
+        <input class="form-control" asp-for="@Model.City" />
+
+        <label asp-for="@Model.County_Name">County:</label>
+        <input class="form-control" asp-for="@Model.County_Name" />
+
+        <label asp-for="@Model.Crash_Severity_ID">Crash Severity ID:</label>
+        <input class="form-control" asp-for="@Model.Crash_Severity_ID" />
+
+        <label asp-for="@Model.Work_Zone_Related">Work Zone Related:</label>
+        <input class="form-control" asp-for="@Model.Work_Zone_Related" />
+
+        <label asp-for="@Model.Pedestrian_Involved">Pedestrian Involved:</label>
+        <input class="form-control" asp-for="@Model.MilePoint" />
+
+        <label asp-for="@Model.Bicyclist_Involved">Bicyclist Involved:</label>
+        <input class="form-control" asp-for="@Model.Bicyclist_Involved" />
+
+        <label asp-for="@Model.Motorcycle_Involved">Motorcycle Involved:</label>
+        <input class="form-control" asp-for="@Model.Motorcycle_Involved" />
+
+        <label asp-for="@Model.Improper_Restraint">Improper Restraint:</label>
+        <input class="form-control" asp-for="@Model.Improper_Restraint" />
+
+        <label asp-for="@Model.Unrestrained">Unrestrained:</label>
+        <input class="form-control" asp-for="@Model.Unrestrained" />
+
+        <label asp-for="@Model.DUI">DUI:</label>
+        <input class="form-control" asp-for="@Model.DUI" />
+
+        <label asp-for="@Model.Intersection_Related">Intersection Related:</label>
+        <input class="form-control" asp-for="@Model.Intersection_Related" />
+
+        <label asp-for="@Model.Wild_Animal_Related">Wild Animal Related:</label>
+        <input class="form-control" asp-for="@Model.Wild_Animal_Related" />
+
+        <label asp-for="@Model.Domestic_Animal_Related">Domestic Animal Related:</label>
+        <input class="form-control" asp-for="@Model.Domestic_Animal_Related" />
+
+        <label asp-for="@Model.Overturn_Rollover">Overturn Rollover:</label>
+        <input class="form-control" asp-for="@Model.Overturn_Rollover" />
+
+        <label asp-for="@Model.Commercial_Motor_Veh_Involved">Commercial Motor Vehicle Involved:</label>
+        <input class="form-control" asp-for="@Model.Commercial_Motor_Veh_Involved" />
+
+        <label asp-for="@Model.Teenage_Driver_Involved">Teenage Driver Involved:</label>
+        <input class="form-control" asp-for="@Model.Teenage_Driver_Involved" />
+
+        <label asp-for="@Model.Older_Driver_Involved">Older Driver Involved:</label>
+        <input class="form-control" asp-for="@Model.Older_Driver_Involved" />
+
+        <label asp-for="@Model.Night_Dark_Condition">NightTime:</label>
+        <input class="form-control" asp-for="@Model.Night_Dark_Condition" />
+
+        <label asp-for="@Model.Single_Vehicle">Single Vehicle:</label>
+        <input class="form-control" asp-for="@Model.Single_Vehicle" />
+
+        <label asp-for="@Model.Distracted_Driving">Distracted Driving:</label>
+        <input class="form-control" asp-for="@Model.Distracted_Driving" />
+
+        <label asp-for="@Model.Drowsy_Driving">Drowsy Driving:</label>
+        <input class="form-control" asp-for="@Model.Drowsy_Driving" />
+
+        <label asp-for="@Model.Roadway_Departure">Roadway Departure:</label>
+        <input class="form-control" asp-for="@Model.Roadway_Departure" />
+    </div>
+    <div class="form-group">
+
+        <label asp-for="@Model.Crash_ID">Crash ID:</label>
+        <select class="custom-select" asp-for="@Model.Crash_ID">
+            @foreach (Accident a in ViewBag.Accident)
+            {
+                <option value="@a.Crash_ID">@a.Crash_Date_Time</option>
+            }
+        </select>
+        <div asp-validation-summary="All"></div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
