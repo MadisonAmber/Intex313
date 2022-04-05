@@ -3,15 +3,17 @@ using System;
 using Intex313.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Intex313.Migrations
 {
     [DbContext(typeof(AccidentDbContext))]
-    partial class AccidentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220404235616_Initial5")]
+    partial class Initial5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,7 +40,7 @@ namespace Intex313.Migrations
                     b.Property<string>("County_Name")
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("Crash_Date_Time")
+                    b.Property<DateTime>("Crash_Date_Time")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int?>("Crash_Severity_ID")
@@ -63,17 +65,17 @@ namespace Intex313.Migrations
                     b.Property<bool?>("Intersection_Related")
                         .HasColumnType("boolean");
 
-                    b.Property<decimal?>("Lat_Utm_Y")
+                    b.Property<decimal>("Lat_Utm_Y")
                         .HasColumnType("numeric");
 
-                    b.Property<decimal?>("Long_Utm_Y")
+                    b.Property<decimal>("Long_Utm_Y")
                         .HasColumnType("numeric");
 
                     b.Property<string>("Main_Road_Name")
                         .HasColumnType("character varying(150)")
                         .HasMaxLength(150);
 
-                    b.Property<decimal?>("MilePoint")
+                    b.Property<decimal>("MilePoint")
                         .HasColumnType("numeric");
 
                     b.Property<bool?>("Motorcycle_Involved")

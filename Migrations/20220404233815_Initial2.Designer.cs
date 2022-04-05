@@ -3,15 +3,17 @@ using System;
 using Intex313.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Intex313.Migrations
 {
     [DbContext(typeof(AccidentDbContext))]
-    partial class AccidentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220404233815_Initial2")]
+    partial class Initial2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,90 +28,90 @@ namespace Intex313.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<bool?>("Bicyclist_Involved")
+                    b.Property<bool>("Bicyclist_Involved")
                         .HasColumnType("boolean");
 
                     b.Property<string>("City")
                         .HasColumnType("text");
 
-                    b.Property<bool?>("Commercial_Motor_Veh_Involved")
+                    b.Property<bool>("Commercial_Motor_Veh_Involved")
                         .HasColumnType("boolean");
 
                     b.Property<string>("County_Name")
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("Crash_Date_Time")
+                    b.Property<DateTime>("Crash_Date_Time")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("Crash_Severity_ID")
+                    b.Property<int>("Crash_Severity_ID")
                         .HasColumnType("integer")
                         .HasMaxLength(1);
 
-                    b.Property<bool?>("DUI")
+                    b.Property<bool>("DUI")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("Distracted_Driving")
+                    b.Property<bool>("Distracted_Driving")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("Domestic_Animal_Related")
+                    b.Property<bool>("Domestic_Animal_Related")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("Drowsy_Driving")
+                    b.Property<bool>("Drowsy_Driving")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("Improper_Restraint")
+                    b.Property<bool>("Improper_Restraint")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("Intersection_Related")
+                    b.Property<bool>("Intersection_Related")
                         .HasColumnType("boolean");
 
-                    b.Property<decimal?>("Lat_Utm_Y")
+                    b.Property<decimal>("Lat_Utm_Y")
                         .HasColumnType("numeric");
 
-                    b.Property<decimal?>("Long_Utm_Y")
+                    b.Property<decimal>("Long_Utm_Y")
                         .HasColumnType("numeric");
 
                     b.Property<string>("Main_Road_Name")
-                        .HasColumnType("character varying(150)")
-                        .HasMaxLength(150);
+                        .HasColumnType("character varying(50)")
+                        .HasMaxLength(50);
 
-                    b.Property<decimal?>("MilePoint")
+                    b.Property<decimal>("MilePoint")
                         .HasColumnType("numeric");
 
-                    b.Property<bool?>("Motorcycle_Involved")
+                    b.Property<bool>("Motorcycle_Involved")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("Night_Dark_Condition")
+                    b.Property<bool>("Night_Dark_Condition")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("Older_Driver_Involved")
+                    b.Property<bool>("Older_Driver_Involved")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("Overturn_Rollover")
+                    b.Property<bool>("Overturn_Rollover")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("Pedestrian_Involved")
+                    b.Property<bool>("Pedestrian_Involved")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("Roadway_Departure")
+                    b.Property<bool>("Roadway_Departure")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Route")
-                        .HasColumnType("text");
+                    b.Property<int>("Route")
+                        .HasColumnType("integer");
 
-                    b.Property<bool?>("Single_Vehicle")
+                    b.Property<bool>("Single_Vehicle")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("Teenage_Driver_Involved")
+                    b.Property<bool>("Teenage_Driver_Involved")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("Unrestrained")
+                    b.Property<bool>("Unrestrained")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("Wild_Animal_Related")
+                    b.Property<bool>("Wild_Animal_Related")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("Work_Zone_Related")
+                    b.Property<bool>("Work_Zone_Related")
                         .HasColumnType("boolean");
 
                     b.HasKey("Crash_ID");
