@@ -31,9 +31,11 @@ namespace Intex313
             builder.UserID = Configuration["RDS_USERNAME"];
             builder.Password = Configuration["RDS_PASSWORD"];
             builder.DataSource = Configuration["RDS_HOSTNAME"];
+            builder.ApplicationName = Configuration["RDS_PORT"];
             services.AddDbContext<AccidentDbContext>(options =>
             {
-                options.UseNpgsql(builder.ConnectionString);
+                options.UseNpgsql("Host=" + builder.DataSource + ";Port=" + builder.ApplicationName + ";Database=" + 
+                    Configuration["RDS_DB_NAME"]+";Username="+builder.UserID+";Password="+builder.Password+";") ;
             });
 
             services.AddControllersWithViews();
