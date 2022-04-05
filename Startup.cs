@@ -27,9 +27,10 @@ namespace Intex313
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("BooksDb"));
-            builder.UserID = Configuration["DbUser"];
-            builder.Password = Configuration["DbPassword"];
+            var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("AccidentDbConnection"));
+            builder.UserID = Configuration["RDS_USERNAME"];
+            builder.Password = Configuration["RDS_PASSWORD"];
+            builder.DataSource = Configuration["RDS_HOSTNAME"];
             services.AddDbContext<AccidentDbContext>(options =>
             {
                 options.UseNpgsql(builder.ConnectionString);
