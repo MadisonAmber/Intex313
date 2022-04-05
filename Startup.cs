@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,10 +27,12 @@ namespace Intex313
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
+            var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("BooksDb"));
+            builder.UserID = Configuration["DbUser"];
+            builder.Password = Configuration["DbPassword"];
             services.AddDbContext<AccidentDbContext>(options =>
             {
-                options.UseNpgsql(Configuration["ConnectionStrings:AccidentDbConnection"]);
+                options.UseNpgsql(builder.ConnectionString);
             });
 
             services.AddControllersWithViews();
