@@ -1,0 +1,21 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model IEnumerable<Accident>
+
+@foreach(Accident a in Model)
+{
+    <div class="card">
+        <div class="card-header">
+            Accident Information
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Accident on @a.Main_Road_Name</h5>
+            <p class="card-text">On @a.Crash_Date_Time, this accident took place.</p>
+            <a href="#" class="btn btn-primary">Learn More</a>
+        </div>
+    </div>
+}
+
+<div class="mt-2" page-model="@ViewBag.PageInfo" page-action="AccidentList"></div>

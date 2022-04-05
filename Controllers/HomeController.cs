@@ -1,4 +1,5 @@
 ﻿using Intex313.Models;
+using Intex313.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -20,35 +21,34 @@ namespace Intex313.Controllers
         public IActionResult Index(int accidentid)
         {
             List<Accident> accidents = new List<Accident>();
-            /*if (accidentid == 0)
-            {
-                ViewBag.Heading = "All Accidents";
-                accidents = context.Accidents
-                    .Include(a => a.Accident)
-                    .ToList();
-            }
-            else
-            {
-                accidents = context.Accidents
-                    .Where(a => a.Crash_ID == accidentid)
-                    .Include(a => a.Accident)
-                    .ToList();
-                if (accidents.Count > 0)
-                {
-                    ViewBag.Heading = "Accident" + accidents[0].Crash_Date_Time;
-                }
-                else
-                {
-                    ViewBag.Heading = "No Accidents Found On This Date.";
-                }
-            }*/
-
-            /*ViewBag.SelectedAccident = accidentid;
-
-            List<Accident> accidents = context.Accidents.ToList();
-            ViewBag.Accidents = accidents;*/
+            
             return View(accidents);
         
+        }
+
+        [HttpGet]
+        public IActionResult AccidentList(int pageNum = 1)
+        {
+            int pageSize = 10;
+            int numPaginationButtons = 10;
+
+            // This will need to be slightly updated to allow for filters
+            IEnumerable<Accident> accidents = context.Accidents
+                .OrderBy(x => x.Crash_Date_Time)
+                .Skip((pageNum - 1) * pageSize)
+                .Take(pageSize);
+
+            PageInfo pi = new PageInfo
+            {
+                TotalNumItems = context.Accidents.Count(),
+                ItemsPerPage = pageSize,
+                CurrentPage = pageNum,
+                NumButtons = numPaginationButtons   
+            };
+
+            ViewBag.PageInfo = pi;
+
+            return View(accidents);
         }
             
 
@@ -58,9 +58,6 @@ namespace Intex313.Controllers
             Accident a = context.Accidents
                 .Single(a => a.Crash_ID == accidentid);
 
-            List<Accident> accidents = context.Accidents.ToList();
-            ViewBag.Teams = accidents;
-
             return View(a);
         }
 
@@ -68,7 +65,6 @@ namespace Intex313.Controllers
         public IActionResult Add()
         {
             List<Accident> accidents = context.Accidents.ToList();
-            ViewBag.Teams = accidents;
 
             Accident a = new Accident();
 
