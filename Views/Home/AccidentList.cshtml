@@ -101,7 +101,15 @@
                                 </div>
                             </div>
 
-                            <p class="card-text">On @a.Crash_Date_Time, this accident took place.</p>
+                            <ul>
+                                <li>
+                                    <p class="card-text">Crash Date & Time: @a.Crash_Date_Time</p>
+                                </li>
+                                <li>
+                                    <p class="card-text">Crash Severity: @a.Crash_Severity_ID</p>
+                                </li>
+                            </ul>
+
                             
                             <a asp-controller="Home" asp-action="AccidentSummary" asp-route-accidentid="@a.Crash_ID" class="btn btn-primary">Learn More</a>
                         </div>

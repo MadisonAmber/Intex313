@@ -26,16 +26,44 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Crash Severity <br />
-                        (1 = Least Severe, 5 = Most Severe)
-                    </th>
+                    <th>Crash Severity</th>
                     <th>Date & Time of Incident</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>@Model.Crash_Severity_ID</td>
-                    <td>@Model.Crash_Date_Time</td>
+                    <td>
+                        <div>
+                            <div class="font-weight-bold">
+                                @Model.Crash_Severity_ID -
+                            </div>
+                            <div>
+                                @if (Model.Crash_Severity_ID == 1)
+                                {
+                                    <p>The severity of this particular incident was very low, and the crash most likely did not result in fatalities.</p>
+                                }
+                                @if (Model.Crash_Severity_ID == 2)
+                                {
+                                    <p>The severity of this particular incident was low, and the crash likely did not result in fatalities.</p>
+                                }
+                                @if (Model.Crash_Severity_ID == 3)
+                                {
+                                    <p>The severity of this particular incident was around average, and the crash may have resulted in fatalities.</p>
+                                }
+                                @if (Model.Crash_Severity_ID == 4)
+                                {
+                                    <p>The severity of this particular incident was high, and the crash likely resulted in fatalities.</p>
+                                }
+                                else if (Model.Crash_Severity_ID == 5)
+                                {
+                                    <p>The severity of this particular incident was very high, and the crash most likely resulted in fatalities.</p>
+                                }
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        @Model.Crash_Date_Time
+                    </td>
                 </tr>
             </tbody>
         </table>
