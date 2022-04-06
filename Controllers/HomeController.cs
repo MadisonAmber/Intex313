@@ -26,6 +26,16 @@ namespace Intex313.Controllers
         
         }
 
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult TermsConditions()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult AccidentList(int pageNum = 1)
         {
