@@ -1,7 +1,9 @@
 ﻿@{
-    ViewData["Title"] = "Form";
+    ViewData["Title"] = "Accident Form";
 }
 @model Accident
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 <form method="POST" asp-controller="Home" asp-action="Add">
     <div class="form-group mb-1">

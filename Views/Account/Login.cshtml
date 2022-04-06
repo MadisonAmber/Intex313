@@ -1,3 +1,42 @@
 ﻿@{
     Layout = null;
 }
+
+
+@model LoginModel
+
+<html>
+<head>
+    <title>Login</title>
+
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/Login.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="modal">
+        <form class="modal-content animate" asp-controller="Account" asp-action="Login">
+            <div class="imgcontainer">
+                <img src="~/img/Avatar.png" alt="Avatar" class="avatar">
+            </div>
+
+            <div class="container">
+                <label asp-for="Username"><b>Username</b></label>
+                <input asp-for="Username" type="text" placeholder="Enter Username" />
+
+                <label asp-for="Password"><b>Password</b></label>
+                <input type="password" asp-for="Password" placeholder="Enter Password" />
+
+            </div>
+            <div asp-validation-summary="All">
+            </div>
+            <input type="hidden" asp-for="ReturnUrl" />
+
+            <div class="container" style="background-color:#f1f1f1">
+                <button class="btn btn-primary" type="submit">Log In</button>
+            </div>
+
+        </form>
+    </div>
+</body>
+</html>
