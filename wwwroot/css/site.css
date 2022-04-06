@@ -50,6 +50,11 @@ html {
     min-height: 100%;
 }
 
+body {
+    /* Margin bottom by footer height */
+
+}
+
 .footer {
     position: absolute;
     bottom: 0;
@@ -61,4 +66,16 @@ html {
 .selected {
     background-color: #ccc;
     font-weight: 700;
+}
+
+.list-container {
+    height: calc(100vh - 234px);
+    overflow-y: scroll;
+}
+
+.filter-container {
+    border: solid 1px #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #fff;
 }

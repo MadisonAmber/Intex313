@@ -1,0 +1,73 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Accident
+
+<div class="filter-container">
+    <p class="card-title mb-1 text-muted">Filter</p>
+    <form method="post" asp-action="AccidentList" asp-controller="Home" asp-route-pageNum="@ViewBag.PageInfo.CurrentPage">
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Work_Zone_Related" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Work_Zone_Related" class="custom-control-label">Work Zone Related</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Pedestrian_Involved" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Pedestrian_Involved" class="custom-control-label">Pedestrian Involved</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Bicyclist_Involved" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Bicyclist_Involved" class="custom-control-label">Bicyclist Involved</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Motorcycle_Involved" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Motorcycle_Involved" class="custom-control-label">Mororcycle Involved</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Improper_Restraint" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Improper_Restraint" class="custom-control-label">Improper Restraint</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Unrestrained" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Unrestrained" class="custom-control-label">Unrestrained</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.DUI" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.DUI" class="custom-control-label">DUI</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Intersection_Related" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Intersection_Related" class="custom-control-label">Intersection Related</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Wild_Animal_Related" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Wild_Animal_Related" class="custom-control-label">Wild Animal Related</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Domestic_Animal_Related" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Domestic_Animal_Related" class="custom-control-label">Domestic Animal Related</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Overturn_Rollover" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Overturn_Rollover" class="custom-control-label">Overturn Rollover</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Commercial_Motor_Veh_Involved" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Commercial_Motor_Veh_Involved" class="custom-control-label">Commercial Motor Vehicle Involved</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Apply Filter</button>
+        <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="AccidentList">Clear Filter</a>
+    </form>
+    
+</div>

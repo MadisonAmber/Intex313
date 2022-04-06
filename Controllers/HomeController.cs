@@ -3,6 +3,7 @@ using Intex313.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -27,7 +28,31 @@ namespace Intex313.Controllers
         }
 
         [HttpGet]
-        public IActionResult AccidentList(int pageNum = 1)
+        public IActionResult AccidentList(int pageNum = 1, string filter = "")
+        {
+
+            Accident f = new Accident();
+            if(filter != "")
+            {
+                try
+                {
+                    f = JsonConvert.DeserializeObject<Accident>(filter);
+                } catch(Exception e)
+                {
+
+                }
+                
+            }
+            return getAccidentsByFilter(pageNum, f);
+        }
+
+        [HttpPost]
+        public IActionResult AccidentList(Accident filter, int pageNum)
+        {
+            return getAccidentsByFilter(pageNum, filter);
+        }
+
+        private IActionResult getAccidentsByFilter(int pageNum, Accident filter)
         {
             int pageSize = 10;
             int numPaginationButtons = 10;
@@ -43,12 +68,13 @@ namespace Intex313.Controllers
                 TotalNumItems = context.Accidents.Count(),
                 ItemsPerPage = pageSize,
                 CurrentPage = pageNum,
-                NumButtons = numPaginationButtons   
+                NumButtons = numPaginationButtons
             };
 
             ViewBag.PageInfo = pi;
+            ViewBag.Filter = filter;
 
-            return View(accidents);
+            return View("AccidentList", accidents);
         }
             
 
@@ -105,20 +131,6 @@ namespace Intex313.Controllers
             context.SaveChanges();
 
             return RedirectToAction("Index");
-        }
-
-        [HttpGet]
-        public IActionResult AccidentSummary(int accidentid)
-        {
-            Accident a = context.Accidents.FirstOrDefault(x => x.Crash_ID == accidentid);
-
-            return View(a);
-        }
-
-        [HttpGet]
-        public IActionResult Predictor()
-        {
-            return View();
         }
 
     }
