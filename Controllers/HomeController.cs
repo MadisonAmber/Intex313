@@ -197,7 +197,74 @@ namespace Intex313.Controllers
             {
                 accidentTypes.Add("Pedestrian Involved");
             }
-
+            if (a.Bicyclist_Involved == true)
+            {
+                accidentTypes.Add("Bicyclist Involved");
+            }
+            if (a.Motorcycle_Involved == true)
+            {
+                accidentTypes.Add("Motorcycle Involved");
+            }
+            if (a.Improper_Restraint == true)
+            {
+                accidentTypes.Add("Improper Restraint");
+            }
+            if (a.Unrestrained == true)
+            {
+                accidentTypes.Add("Unrestrained");
+            }
+            if (a.DUI == true)
+            {
+                accidentTypes.Add("DUI (Driving Under the Influence)");
+            }
+            if (a.Intersection_Related == true)
+            {
+                accidentTypes.Add("Intersection Related");
+            }
+            if (a.Wild_Animal_Related == true)
+            {
+                accidentTypes.Add("Wild Animal Related");
+            }
+            if (a.Domestic_Animal_Related == true)
+            {
+                accidentTypes.Add("Domestic Animal Related");
+            }
+            if (a.Overturn_Rollover == true)
+            {
+                accidentTypes.Add("Overturn Rollover");
+            }
+            if (a.Commercial_Motor_Veh_Involved == true)
+            {
+                accidentTypes.Add("Commercial Motor Vehicle Involved");
+            }
+            if (a.Teenage_Driver_Involved == true)
+            {
+                accidentTypes.Add("Teenage Driver Involved");
+            }
+            if (a.Older_Driver_Involved == true)
+            {
+                accidentTypes.Add("Older Driver Involved");
+            }
+            if (a.Night_Dark_Condition == true)
+            {
+                accidentTypes.Add("Nighttime/Dark Outside");
+            }
+            if (a.Single_Vehicle == true)
+            {
+                accidentTypes.Add("Single Vehicle");
+            }
+            if (a.Distracted_Driving == true)
+            {
+                accidentTypes.Add("Distracted Driving");
+            }
+            if (a.Drowsy_Driving == true)
+            {
+                accidentTypes.Add("Drowsy Driving");
+            }
+            if (a.Roadway_Departure == true)
+            {
+                accidentTypes.Add("Departed from the Roadway");
+            }
 
             ViewBag.AccidentTypes = accidentTypes;
             return View(a);
