@@ -106,6 +106,7 @@
         <div>
             <button type="submit" class="btn btn-primary">Apply Filter</button>
             <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="AccidentList">Clear Filter</a>
+            <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="DownloadCsv" asp-route-filter="@Newtonsoft.Json.JsonConvert.SerializeObject(Model)">Download Csv</a>
         </div>
 
     </form>

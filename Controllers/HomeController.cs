@@ -1,4 +1,6 @@
-﻿using Intex313.Models;
+﻿using CsvHelper;
+using CsvHelper.Configuration;
+using Intex313.Models;
 using Intex313.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +9,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Intex313.Controllers
@@ -25,6 +29,49 @@ namespace Intex313.Controllers
             
             return View(accidents);
         
+        }
+
+        [HttpGet]
+        public IActionResult DownloadCsv(string filter)
+        {
+            Accident f = new Accident();
+            string fileName = "accident_data_with";
+            if (filter != "")
+            {
+                fileName = fileName + "_filter";
+                try
+                {
+                    f = JsonConvert.DeserializeObject<Accident>(filter);
+                }
+                catch (Exception e)
+                {
+
+                }
+
+            } else
+            {
+                fileName = fileName + "out_filter";
+            }
+
+            string filterString = BuildQueryFilter(f);
+            List<Accident> accidents = context.Accidents
+                .FromSqlRaw(filterString)
+                .OrderBy(x => x.Crash_Date_Time)
+                .ToList();
+
+            var cc = new CsvConfiguration(new System.Globalization.CultureInfo("en-US"));
+            using (var ms = new MemoryStream())
+            {
+                using (var sw = new StreamWriter(stream: ms, encoding: new UTF8Encoding(true)))
+                {
+                    using (var cw = new CsvWriter(sw, cc))
+                    {
+                        cw.WriteRecords(accidents);
+                    }// The stream gets flushed here.
+                    return File(ms.ToArray(), "text/csv", $"{fileName}_{DateTime.UtcNow.Ticks}.csv");
+                }
+            }
+
         }
 
         [HttpGet]
