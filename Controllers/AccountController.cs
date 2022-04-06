@@ -39,7 +39,7 @@ namespace Intex313.Controllers
 
                     if ((await signInManager.PasswordSignInAsync(user, loginModel.Password, false, false)).Succeeded)
                     {
-                        return Redirect(loginModel?.ReturnUrl ?? "/Admin");
+                        return Redirect(loginModel?.ReturnUrl ?? "/Home/Index");
                     }
                 }
 
@@ -48,6 +48,11 @@ namespace Intex313.Controllers
             }
 
             return View(loginModel);
+        }
+
+        public IActionResult Profile()
+        {
+            return View();
         }
 
         public async Task<RedirectResult> Logout(string returnUrl = "/")

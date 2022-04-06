@@ -1,6 +1,13 @@
 ﻿@model IEnumerable<Accident>
 
-@foreach(Accident a in Model)
+
+<div>
+    @if (this.User.Identity.IsAuthenticated)
+    {
+        <a asp-controller="Home" asp-action="Add" class="btn btn-primary">Add new crash</a>
+    }
+</div>
+@foreach (Accident a in Model)
 {
     <div class="card">
         <div class="card-header">
@@ -11,8 +18,12 @@
             <p class="card-text">Time of Crash: @a.Crash_Date_Time</p>
             <p class="card-text">Crash Severity: @a.Crash_Severity_ID</p>
             <a asp-controller="Home" asp-action="AccidentSummary" asp-route-accidentid="@a.Crash_ID" class="btn btn-primary">Learn More</a>
+            @if (this.User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="Home" asp-action="Edit" asp-route-id="@a.Crash_ID" class="btn btn-primary">Edit</a>
+                <a asp-controller="Home" asp-action="AccidentSummary" asp-route-accidentid="@a.Crash_ID" class="btn btn-primary">Delete</a>
+            }
         </div>
     </div>
 }
-
 <div class="mt-2" page-model="@ViewBag.PageInfo" page-action="AccidentList"></div>
