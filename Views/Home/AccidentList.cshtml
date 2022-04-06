@@ -8,12 +8,13 @@
 {
     <div class="card">
         <div class="card-header">
-            Accident Information
+            <h5>Accident #@a.Crash_ID</h5>
         </div>
         <div class="card-body">
-            <h5 class="card-title">Accident on @a.Main_Road_Name</h5>
-            <p class="card-text">On @a.Crash_Date_Time, this accident took place.</p>
-            <a href="#" class="btn btn-primary">Learn More</a>
+            <h5 class="card-title">Located at @a.Main_Road_Name, @a.City in @a.County_Name, UTAH. </h5>
+            <p class="card-text">Time of Crash: @a.Crash_Date_Time</p>
+            <p class="card-text">Crash Severity: @a.Crash_Severity_ID</p>
+            <a asp-controller="Home" asp-action="AccidentSummary" asp-route-accidentid="@a.Crash_ID" class="btn btn-primary">Learn More</a>
         </div>
     </div>
 }

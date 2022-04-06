@@ -107,5 +107,19 @@ namespace Intex313.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public IActionResult AccidentSummary(int accidentid)
+        {
+            Accident a = context.Accidents.FirstOrDefault(x => x.Crash_ID == accidentid);
+
+            return View(a);
+        }
+
+        [HttpGet]
+        public IActionResult Predictor()
+        {
+            return View();
+        }
+
     }
 }
