@@ -185,8 +185,21 @@ namespace Intex313.Controllers
         [HttpGet]
         public IActionResult AccidentSummary(int accidentid)
         {
+            List<String> accidentTypes = new List<String>();
+
             Accident a = context.Accidents.FirstOrDefault(x => x.Crash_ID == accidentid);
 
+            if(a.Work_Zone_Related == true)
+            {
+                accidentTypes.Add("Work Zone Related");
+            }
+            if(a.Pedestrian_Involved == true)
+            {
+                accidentTypes.Add("Pedestrian Involved");
+            }
+
+
+            ViewBag.AccidentTypes = accidentTypes;
             return View(a);
         }
 

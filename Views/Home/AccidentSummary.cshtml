@@ -12,6 +12,10 @@
                 <h5 class="card-title">Accident at @Model.Main_Road_Name</h5>
                 <p class="card-text">This accident happened in @Model.City, and the severity was a @Model.Crash_Severity_ID.</p>
                 <a href="#" class="btn btn-primary">Go somewhere</a>
+                @foreach (String accidentType in ViewBag.AccidentTypes)
+                {
+                    <span class="badge badge-pill badge-warning">@accidentType</span>
+                }
             </div>
         </div>
     </div>
