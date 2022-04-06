@@ -2,6 +2,7 @@
 using CsvHelper.Configuration;
 using Intex313.Models;
 using Intex313.Models.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -99,12 +100,39 @@ namespace Intex313.Controllers
             return getAccidentsByFilter(pageNum, filter);
         }
 
-        private IActionResult getAccidentsByFilter(int pageNum, Accident filter)
+        [HttpPost]
+        public IActionResult Search(IFormCollection collection)
+        {
+            string filter = collection["Filter"];
+            Accident f = new Accident();
+            if (filter != "")
+            {
+                try
+                {
+                    f = JsonConvert.DeserializeObject<Accident>(filter);
+                }
+                catch (Exception e)
+                {
+
+                }
+
+            }
+
+            string searchInput = collection["InputValue"];
+            string searchInputField = collection["InputValueField"];
+
+            ViewBag.SearchInput = searchInput;
+            ViewBag.SearchInputField = searchInputField;
+
+            return getAccidentsByFilter(1, f, searchInput, searchInputField);
+        }
+
+        private IActionResult getAccidentsByFilter(int pageNum, Accident filter, string searchInput = "", string searchInputField = "")
         {
             int pageSize = 10;
             int numPaginationButtons = 10;
 
-            string queryFilter = BuildQueryFilter(filter);
+            string queryFilter = BuildQueryFilter(filter, searchInput, searchInputField);
 
             // This will need to be slightly updated to allow for filters
             IEnumerable<Accident> accidents = context.Accidents
@@ -127,7 +155,7 @@ namespace Intex313.Controllers
             return View("AccidentList", accidents);
         }
 
-        private string BuildQueryFilter(Accident filter)
+        private string BuildQueryFilter(Accident filter, string InputValue = "", string InputValueField = "")
         {
             string filterString = "SELECT * FROM public.\"Accidents\" WHERE ";
             int numFilterParams = 0;
@@ -157,6 +185,18 @@ namespace Intex313.Controllers
 
                             filterString = filterString + " \"" + fieldName + "\" = true";
 
+                            numFilterParams = numFilterParams + 1;
+                        }
+                        break;
+                    case "String":
+                        if(InputValueField == property.Name)
+                        {
+                            if (numFilterParams > 0)
+                            {
+                                filterString = filterString + " AND ";
+                            }
+
+                            filterString = filterString + " LOWER(\"" + property.Name + "\") LIKE LOWER('%" + InputValue + "%')";
                             numFilterParams = numFilterParams + 1;
                         }
                         break;
