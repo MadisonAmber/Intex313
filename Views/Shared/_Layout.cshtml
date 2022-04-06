@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string controller = ViewContext.RouteData.Values["Controller"].ToString();
+    string action = ViewContext.RouteData.Values["Action"].ToString();
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,7 +18,6 @@
 
 </head>
 <body>
-
     <div id="wrapper">
 
         <!-- Sidebar -->
@@ -31,7 +35,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item @(controller == "Home" && action == "Index" ? "active" : "")">
                 <a class="nav-link" asp-controller="Home" asp-action="Index">
                     <i class="fas fa-solid fa-house"></i>
                     <span>Home</span>
@@ -47,7 +51,7 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            <li class="nav-item @(controller == "Home" && (action == "AccidentList" || action == "Predictor" || action == "AccidentSummary") ? "active" : "")">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                    aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa-solid fa-eye"></i>
@@ -55,7 +59,7 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
+                        <h6 class="collapse-header">Accident Data:</h6>
                         <a asp-controller="Home" asp-action="AccidentList" class="collapse-item">View Accident List</a>
                         <a asp-controller="Home" asp-action="Predictor" class="collapse-item">Make a Prediction</a>
                     </div>
@@ -70,7 +74,7 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                    aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
+                    <span>Account</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
