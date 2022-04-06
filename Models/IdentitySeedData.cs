@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -7,16 +8,18 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Intex313.Models
 {
-    public class IdentitySeedData
+    public static class IdentitySeedData
     {
-        private const string adminUser = "Grou313";
+        private const string TAUser = "TAGrading";
+        private const string TAPass = "PleaseHaveMercy123!";
+        private const string adminUser = "Admin";
         private const string adminPassword = "313SpencerOut:)";
 
         public static async void EnsurePopulated(IApplicationBuilder app)
         {
-            AppIdentityDBContext context = app.ApplicationServices
+            AccidentDbContext context = app.ApplicationServices
                 .CreateScope().ServiceProvider
-                .GetRequiredService<AppIdentityDBContext>();
+                .GetRequiredService<AccidentDbContext>();
 
             if (context.Database.GetPendingMigrations().Any())
             {
@@ -29,6 +32,7 @@ namespace Intex313.Models
 
 
             IdentityUser user = await userManager.FindByIdAsync(adminUser);
+            IdentityUser TAuser = await userManager.FindByIdAsync(TAUser);
 
             if (user == null)
             {
@@ -37,6 +41,14 @@ namespace Intex313.Models
                 user.PhoneNumber = "123-4567";
 
                 await userManager.CreateAsync(user, adminPassword);
+            }
+            if (TAuser == null)
+            {
+                TAuser = new IdentityUser(TAUser);
+                TAuser.Email = "email@gmail.com";
+                TAuser.PhoneNumber = "223-4567";
+
+                await userManager.CreateAsync(TAuser, TAPass);
             }
         }
     }
