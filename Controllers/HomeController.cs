@@ -57,15 +57,18 @@ namespace Intex313.Controllers
             int pageSize = 10;
             int numPaginationButtons = 10;
 
+            string queryFilter = BuildQueryFilter(filter);
+
             // This will need to be slightly updated to allow for filters
             IEnumerable<Accident> accidents = context.Accidents
+                .FromSqlRaw(queryFilter)
                 .OrderBy(x => x.Crash_Date_Time)
                 .Skip((pageNum - 1) * pageSize)
                 .Take(pageSize);
 
             PageInfo pi = new PageInfo
             {
-                TotalNumItems = context.Accidents.Count(),
+                TotalNumItems = context.Accidents.FromSqlRaw(queryFilter).Count(),
                 ItemsPerPage = pageSize,
                 CurrentPage = pageNum,
                 NumButtons = numPaginationButtons
@@ -75,6 +78,52 @@ namespace Intex313.Controllers
             ViewBag.Filter = filter;
 
             return View("AccidentList", accidents);
+        }
+
+        private string BuildQueryFilter(Accident filter)
+        {
+            string filterString = "SELECT * FROM public.\"Accidents\" WHERE ";
+            int numFilterParams = 0;
+
+            foreach(var property in filter.GetType().GetProperties())
+            {
+                switch(property.PropertyType.Name.ToString())
+                {
+                    case "Boolean":
+                        bool boolValue = false;
+                        try
+                        {
+                            boolValue = Convert.ToBoolean(property.GetValue(filter));
+                            
+                        } catch (Exception e)
+                        {
+                            boolValue = false;
+                        }
+                        
+                        if(boolValue == true)
+                        {
+                            string fieldName = property.Name;
+                            if(numFilterParams > 0)
+                            {
+                                filterString = filterString + " AND ";
+                            } 
+
+                            filterString = filterString + " \"" + fieldName + "\" = true";
+
+                            numFilterParams = numFilterParams + 1;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if(numFilterParams == 0)
+            {
+                filterString = "SELECT * FROM public.\"Accidents\"";
+            }
+
+            return filterString;
         }
             
 
@@ -131,6 +180,20 @@ namespace Intex313.Controllers
             context.SaveChanges();
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult AccidentSummary(int accidentid)
+        {
+            Accident a = context.Accidents.FirstOrDefault(x => x.Crash_ID == accidentid);
+
+            return View(a);
+        }
+
+        [HttpGet]
+        public IActionResult Predictor()
+        {
+            return View();
         }
 
     }

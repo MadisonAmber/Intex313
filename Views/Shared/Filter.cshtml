@@ -4,7 +4,7 @@
 @model Accident
 
 <div class="filter-container">
-    <p class="card-title mb-1 text-muted">Filter</p>
+    <p class="card-title mb-1 text-dark"><b>Filter</b></p>
     <form method="post" asp-action="AccidentList" asp-controller="Home" asp-route-pageNum="@ViewBag.PageInfo.CurrentPage">
         <div class="custom-control custom-checkbox">
             <input asp-for="@Model.Work_Zone_Related" type="checkbox" class="custom-control-input">
@@ -23,7 +23,7 @@
 
         <div class="custom-control custom-checkbox">
             <input asp-for="@Model.Motorcycle_Involved" type="checkbox" class="custom-control-input">
-            <label asp-for="@Model.Motorcycle_Involved" class="custom-control-label">Mororcycle Involved</label>
+            <label asp-for="@Model.Motorcycle_Involved" class="custom-control-label">Motorcycle Involved</label>
         </div>
 
         <div class="custom-control custom-checkbox">
@@ -38,7 +38,7 @@
 
         <div class="custom-control custom-checkbox">
             <input asp-for="@Model.DUI" type="checkbox" class="custom-control-input">
-            <label asp-for="@Model.DUI" class="custom-control-label">DUI</label>
+            <label asp-for="@Model.DUI" class="custom-control-label">DUI (Driving Under the Influence)</label>
         </div>
 
         <div class="custom-control custom-checkbox">
@@ -66,8 +66,48 @@
             <label asp-for="@Model.Commercial_Motor_Veh_Involved" class="custom-control-label">Commercial Motor Vehicle Involved</label>
         </div>
 
-        <button type="submit" class="btn btn-primary">Apply Filter</button>
-        <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="AccidentList">Clear Filter</a>
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Teenage_Driver_Involved" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Teenage_Driver_Involved" class="custom-control-label">Teenage Driver Involved</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Older_Driver_Involved" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Older_Driver_Involved" class="custom-control-label">Older Driver Involved</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Night_Dark_Condition" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Night_Dark_Condition" class="custom-control-label">Nighttime/Dark Outside</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Single_Vehicle" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Single_Vehicle" class="custom-control-label">Single Vehicle</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Distracted_Driving" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Distracted_Driving" class="custom-control-label">Distracted Driving</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Drowsy_Driving" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Drowsy_Driving" class="custom-control-label">Drowsy Driving</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input asp-for="@Model.Roadway_Departure" type="checkbox" class="custom-control-input">
+            <label asp-for="@Model.Roadway_Departure" class="custom-control-label">Departed from the Roadway</label>
+        </div>
+
+        <br />
+
+        <div>
+            <button type="submit" class="btn btn-primary">Apply Filter</button>
+            <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="AccidentList">Clear Filter</a>
+        </div>
+
     </form>
     
 </div>
