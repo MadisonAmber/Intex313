@@ -57,7 +57,6 @@ namespace Intex313.Controllers
             return Redirect(returnUrl);
         }
 
-
     }
 }
 
