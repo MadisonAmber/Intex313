@@ -1,7 +1,11 @@
 ﻿@{
-    string controller = ViewContext.RouteData.Values["Controller"].ToString();
-    string action = ViewContext.RouteData.Values["Action"].ToString();
+    string controller = ""/*ViewContext.RouteData.Values["Controller"].ToString()*/;
+    string action = ""/*ViewContext.RouteData.Values["Action"].ToString()*/;
 }
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +21,7 @@
     <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
 
 </head>
+
 <body>
     <div id="wrapper">
 
@@ -76,26 +81,21 @@
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Account</span>
                 </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                    </div>
-                </div>
+                <partial name="_LoginPartial" />
+
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
+                <!-- Sidebar Toggler (Sidebar) -->
+                <div class="text-center d-none d-md-inline">
+                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                </div>
 
+            </ul>
         </ul>
+
         <!-- End of Sidebar -->
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -154,14 +154,15 @@
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">User's Name Goes Here</span>
-                                <i class="fas fa-user"></i>
+                        <li class="">
+                            <a id="manage" class="mr-2 d-none d-lg-inline text-gray-600" style="text-decoration:none;"asp-area="Identity" asp-page="/Account/Manage/Index">@(User.Identity.Name == null ? "" : User.Identity.Name)</a>
+
+
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                            <i class="fas fa-user"></i>
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            @*<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-solid fa-user"></i>
@@ -180,7 +181,7 @@
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
-                            </div>
+                            </div>*@
                         </li>
 
                     </ul>
