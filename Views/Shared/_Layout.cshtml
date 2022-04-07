@@ -113,18 +113,27 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+
+                    <form method="post" asp-controller="Home" asp-action="Search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                   aria-label="Search" aria-describedby="basic-addon2">
+                            <input value="@ViewBag.SearchInput" type="text" name="InputValue" class="form-control bg-light border-0 small" placeholder="Search for Accidents by..." aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-btn search-panel">
+                                <select name="InputValueField" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <option selected="@(ViewBag.SearchInputField == "City" ? true : false)" value="City">City</option>
+                                    <option selected="@(ViewBag.SearchInputField == "Main_Road_Name" ? true : false)" value="Main_Road_Name">Main Road Name</option>
+                                    <option selected="@(ViewBag.SearchInputField == "County_Name" ? true : false)" value="County_Name">County Name</option>
+                                    <option selected="@(ViewBag.SearchInputField == "Route" ? true : false)" value="Route">Route</option>
+                                </select>
+                            </div>
+                            <input name="Filter" type="hidden" value="@(ViewBag.Filter != null ? Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Filter) : "")" />
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
+                                <button class="btn btn-primary" type="submit">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
                             </div>
                         </div>
                     </form>
+
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">

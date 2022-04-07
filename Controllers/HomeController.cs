@@ -1,5 +1,8 @@
-﻿using Intex313.Models;
+﻿using CsvHelper;
+using CsvHelper.Configuration;
+using Intex313.Models;
 using Intex313.Models.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -7,7 +10,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Intex313.Controllers
@@ -25,6 +30,49 @@ namespace Intex313.Controllers
             
             return View(accidents);
         
+        }
+
+        [HttpGet]
+        public IActionResult DownloadCsv(string filter)
+        {
+            Accident f = new Accident();
+            string fileName = "accident_data_with";
+            if (filter != "")
+            {
+                fileName = fileName + "_filter";
+                try
+                {
+                    f = JsonConvert.DeserializeObject<Accident>(filter);
+                }
+                catch (Exception e)
+                {
+
+                }
+
+            } else
+            {
+                fileName = fileName + "out_filter";
+            }
+
+            string filterString = BuildQueryFilter(f);
+            List<Accident> accidents = context.Accidents
+                .FromSqlRaw(filterString)
+                .OrderBy(x => x.Crash_Date_Time)
+                .ToList();
+
+            var cc = new CsvConfiguration(new System.Globalization.CultureInfo("en-US"));
+            using (var ms = new MemoryStream())
+            {
+                using (var sw = new StreamWriter(stream: ms, encoding: new UTF8Encoding(true)))
+                {
+                    using (var cw = new CsvWriter(sw, cc))
+                    {
+                        cw.WriteRecords(accidents);
+                    }// The stream gets flushed here.
+                    return File(ms.ToArray(), "text/csv", $"{fileName}_{DateTime.UtcNow.Ticks}.csv");
+                }
+            }
+
         }
 
         [HttpGet]
@@ -47,17 +95,44 @@ namespace Intex313.Controllers
         }
 
         [HttpPost]
-        public IActionResult AccidentList(Accident filter, int pageNum)
+        public IActionResult AccidentList(Accident filter, int pageNum, string searchInput = "", string searchInputField = "") 
         {
-            return getAccidentsByFilter(pageNum, filter);
+            return getAccidentsByFilter(pageNum, filter, searchInput, searchInputField);
         }
 
-        private IActionResult getAccidentsByFilter(int pageNum, Accident filter)
+        [HttpPost]
+        public IActionResult Search(IFormCollection collection)
+        {
+            string filter = collection["Filter"];
+            Accident f = new Accident();
+            if (filter != "")
+            {
+                try
+                {
+                    f = JsonConvert.DeserializeObject<Accident>(filter);
+                }
+                catch (Exception e)
+                {
+
+                }
+
+            }
+
+            string searchInput = collection["InputValue"];
+            string searchInputField = collection["InputValueField"];
+
+            ViewBag.SearchInput = searchInput;
+            ViewBag.SearchInputField = searchInputField;
+
+            return getAccidentsByFilter(1, f, searchInput, searchInputField);
+        }
+
+        private IActionResult getAccidentsByFilter(int pageNum, Accident filter, string searchInput = "", string searchInputField = "")
         {
             int pageSize = 10;
             int numPaginationButtons = 10;
 
-            string queryFilter = BuildQueryFilter(filter);
+            string queryFilter = BuildQueryFilter(filter, searchInput, searchInputField);
 
             // This will need to be slightly updated to allow for filters
             IEnumerable<Accident> accidents = context.Accidents
@@ -80,7 +155,7 @@ namespace Intex313.Controllers
             return View("AccidentList", accidents);
         }
 
-        private string BuildQueryFilter(Accident filter)
+        private string BuildQueryFilter(Accident filter, string InputValue = "", string InputValueField = "")
         {
             string filterString = "SELECT * FROM public.\"Accidents\" WHERE ";
             int numFilterParams = 0;
@@ -108,9 +183,35 @@ namespace Intex313.Controllers
                                 filterString = filterString + " AND ";
                             } 
 
-                            filterString = filterString + " \"" + fieldName + "\" = true";
+                            filterString = $"{filterString}\"{fieldName}\" = true";
 
                             numFilterParams = numFilterParams + 1;
+                        }
+                        break;
+                    case "String":
+                        string propFromModel = Convert.ToString(property?.GetValue(filter));
+                        if(propFromModel != null & propFromModel != "" & (InputValueField == null || InputValueField == ""))
+                        {
+                            InputValueField = property.Name;
+                            InputValue = propFromModel;
+                        }
+                        if(InputValueField == property.Name)
+                        {
+                            if (numFilterParams > 0)
+                            {
+                                filterString = filterString + " AND ";
+                            }
+
+                            filterString = $"{filterString}LOWER(\"{property.Name}\") LIKE LOWER('%{InputValue}%')";
+                            numFilterParams = numFilterParams + 1;
+
+                            ViewBag.SearchInput = InputValue;
+                            ViewBag.SearchInputField = property.Name;
+                            
+                            filter.City = property.Name == "City" ? InputValue : "";
+                            filter.Main_Road_Name = property.Name == "Main_Road_Name" ? InputValue : "";
+                            filter.County_Name = property.Name == "County_Name" ? InputValue : "";
+                            filter.Route = property.Name == "Route" ? InputValue : "";
                         }
                         break;
                     default:
