@@ -5,7 +5,7 @@
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 
-<form method="POST" asp-controller="Home" asp-action="Add">
+<form method="POST">
     <div class="form-group mb-1">
         <input type="hidden" asp-for="@Model.Crash_ID" />
 
@@ -40,7 +40,7 @@
         <input class="form-control" asp-for="@Model.Work_Zone_Related" />
 
         <label asp-for="@Model.Pedestrian_Involved">Pedestrian Involved:</label>
-        <input class="form-control" asp-for="@Model.MilePoint" />
+        <input class="form-control" asp-for="@Model.Pedestrian_Involved" />
 
         <label asp-for="@Model.Bicyclist_Involved">Bicyclist Involved:</label>
         <input class="form-control" asp-for="@Model.Bicyclist_Involved" />
@@ -95,14 +95,14 @@
     </div>
     <div class="form-group">
 
-        <label asp-for="@Model.Crash_ID">Crash ID:</label>
+        @*<label asp-for="@Model.Crash_ID">Crash ID:</label>
         <select class="custom-select" asp-for="@Model.Crash_ID">
             @foreach (Accident a in ViewBag.Accident)
             {
                 <option value="@a.Crash_ID">@a.Crash_Date_Time</option>
             }
         </select>
-        <div asp-validation-summary="All"></div>
+        <div asp-validation-summary="All"></div>*@
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </form>

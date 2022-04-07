@@ -1,15 +1,22 @@
 ﻿@model IEnumerable<Accident>
 
+@{
+    ViewData["Title"] = "Home Page";
+}
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
 <div class="">
     <div class="row">
         <div class="col-md-4">
-            <partial name="Filter" model="@ViewBag.Filter"/>
+            <partial name="Filter" model="@ViewBag.Filter" />
         </div>
         <div class="col-md-8">
             <div class="list-container">
 
-                @foreach(Accident a in Model)
-                 {
+                @foreach (Accident a in Model)
+                {
+
                     <div class="card">
 
                         <div class="card-body">
@@ -106,11 +113,16 @@
                                 </li>
                             </ul>
 
-                            
+
                             <a asp-controller="Home" asp-action="AccidentSummary" asp-route-accidentid="@a.Crash_ID" class="btn btn-primary">Learn More</a>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <a asp-controller="Home" asp-action="Edit" asp-route-accidentid="@a.Crash_ID" class="btn btn-primary">Edit</a>
+                                <a asp-controller="Home" asp-action="Delete" asp-route-accidentid="@a.Crash_ID" class="btn btn-primary">Delete</a>
+                            }
                         </div>
                     </div>
-                 }
+                }
 
             </div>
         </div>

@@ -22,7 +22,7 @@ namespace Intex313.Models
         public string Main_Road_Name { get; set; }
         public string City { get; set; }
         public string County_Name { get; set; }
-        [MaxLength(1)]
+        [Range(1, 5, ErrorMessage = "Value must be between 1 and 5")]
         public int? Crash_Severity_ID { get; set; }
         public bool Work_Zone_Related { get; set; }
         public bool Pedestrian_Involved { get; set; }
