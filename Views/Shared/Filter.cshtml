@@ -5,7 +5,7 @@
 
 <div class="filter-container">
     <p class="card-title mb-1 text-dark"><b>Filter</b></p>
-    <form method="post" asp-action="AccidentList" asp-controller="Home" asp-route-pageNum="@ViewBag.PageInfo.CurrentPage">
+    <form method="post" asp-action="AccidentList" asp-controller="Home" asp-route-searchInput="@(ViewBag.SearchInput != null ? @ViewBag.SearchInput : "")" asp-route-searchInputField="@(ViewBag.SearchInputField != null ? ViewBag.SearchInputField : "")" asp-route-pageNum="1">
         <div class="custom-control custom-checkbox">
             <input asp-for="@Model.Work_Zone_Related" type="checkbox" class="custom-control-input">
             <label asp-for="@Model.Work_Zone_Related" class="custom-control-label">Work Zone Related</label>

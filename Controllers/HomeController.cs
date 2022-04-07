@@ -95,9 +95,9 @@ namespace Intex313.Controllers
         }
 
         [HttpPost]
-        public IActionResult AccidentList(Accident filter, int pageNum)
+        public IActionResult AccidentList(Accident filter, int pageNum, string searchInput = "", string searchInputField = "") 
         {
-            return getAccidentsByFilter(pageNum, filter);
+            return getAccidentsByFilter(pageNum, filter, searchInput, searchInputField);
         }
 
         [HttpPost]
@@ -183,12 +183,18 @@ namespace Intex313.Controllers
                                 filterString = filterString + " AND ";
                             } 
 
-                            filterString = filterString + " \"" + fieldName + "\" = true";
+                            filterString = $"{filterString}\"{fieldName}\" = true";
 
                             numFilterParams = numFilterParams + 1;
                         }
                         break;
                     case "String":
+                        string propFromModel = Convert.ToString(property?.GetValue(filter));
+                        if(propFromModel != null & propFromModel != "" & (InputValueField == null || InputValueField == ""))
+                        {
+                            InputValueField = property.Name;
+                            InputValue = propFromModel;
+                        }
                         if(InputValueField == property.Name)
                         {
                             if (numFilterParams > 0)
@@ -196,8 +202,16 @@ namespace Intex313.Controllers
                                 filterString = filterString + " AND ";
                             }
 
-                            filterString = filterString + " LOWER(\"" + property.Name + "\") LIKE LOWER('%" + InputValue + "%')";
+                            filterString = $"{filterString}LOWER(\"{property.Name}\") LIKE LOWER('%{InputValue}%')";
                             numFilterParams = numFilterParams + 1;
+
+                            ViewBag.SearchInput = InputValue;
+                            ViewBag.SearchInputField = property.Name;
+                            
+                            filter.City = property.Name == "City" ? InputValue : "";
+                            filter.Main_Road_Name = property.Name == "Main_Road_Name" ? InputValue : "";
+                            filter.County_Name = property.Name == "County_Name" ? InputValue : "";
+                            filter.Route = property.Name == "Route" ? InputValue : "";
                         }
                         break;
                     default:

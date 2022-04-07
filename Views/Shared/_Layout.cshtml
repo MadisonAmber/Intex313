@@ -114,7 +114,7 @@
 
                     <form method="post" asp-controller="Home" asp-action="Search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input value="@ViewBag.SearchInput" type="text" name="InputValue" class="form-control bg-light border-0 small" placeholder="Search for Accidents..." aria-label="Search" aria-describedby="basic-addon2">
+                            <input value="@ViewBag.SearchInput" type="text" name="InputValue" class="form-control bg-light border-0 small" placeholder="Search for Accidents by..." aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-btn search-panel">
                                 <select name="InputValueField" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                     <option selected="@(ViewBag.SearchInputField == "City" ? true : false)" value="City">City</option>
