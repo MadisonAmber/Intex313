@@ -34,4 +34,7 @@
   <ItemGroup>
     <Folder Include="Views\Home\Admin\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\Utah_Crash_Data.onnx" />
+  </ItemGroup>
 </Project>

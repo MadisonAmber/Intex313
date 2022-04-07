@@ -30,6 +30,13 @@ namespace Intex313
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddHsts(options =>
+            {
+                options.Preload = true;
+                options.IncludeSubDomains = true;
+                options.MaxAge = TimeSpan.FromDays(365);
+            });
+
             var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("AccidentDbConnection"));
             builder.UserID = Configuration["RDS_USERNAME"];
             builder.Password = Configuration["RDS_PASSWORD"];
@@ -57,7 +64,7 @@ namespace Intex313
 
             //Add for ONNX file
             services.AddSingleton<InferenceSession>(
-              new InferenceSession("Utah_Crash_Data.onnx")
+              new InferenceSession("wwwroot/Utah_Crash_Data.onnx")
             );
 
             //Repository method
@@ -69,16 +76,16 @@ namespace Intex313
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+            //else
+            //{            }
+            app.UseExceptionHandler("/Home/Error");
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+
 
             app.UseStaticFiles();
             app.UseHttpsRedirection();
