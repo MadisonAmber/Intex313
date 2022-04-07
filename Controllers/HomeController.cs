@@ -239,10 +239,10 @@ namespace Intex313.Controllers
             
 
         [HttpGet]
-        public IActionResult Edit(int accidentid)
+        public IActionResult Edit(int id)
         {
-            Accident a = context.Accidents
-                .Single(a => a.Crash_ID == accidentid);
+            var a = context.Accidents
+                .Single(a => a.Crash_ID == id);
 
             return View(a);
         }
@@ -255,11 +255,24 @@ namespace Intex313.Controllers
             return RedirectToAction("AccidentList");
         }
 
+        [HttpPost]
+        public IActionResult Edit()
+        {
+
+            if (ModelState.IsValid)
+            {
+                context.SaveChanges();
+                return RedirectToAction("AccidentList");
+            }
+            else
+            {
+                return View("Edit", a);
+            }
+        }
+
         [HttpGet]
         public IActionResult Add()
         {
-            List<Accident> accidents = context.Accidents.ToList();
-
             Accident a = new Accident();
 
             return View("Edit", a);
@@ -286,8 +299,6 @@ namespace Intex313.Controllers
             }
             else
             {
-                List<Accident> accidents = context.Accidents.ToList();
-                ViewBag.Accidents = accidents;
                 return View("Edit", a);
             }
         }

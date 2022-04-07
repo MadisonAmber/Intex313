@@ -13,7 +13,12 @@
         </div>
         <div class="col-md-8">
             <div class="list-container">
-
+                <div>
+                  @if (this.User.Identity.IsAuthenticated)
+                  {
+                      <a asp-controller="Home" asp-action="Add" class="btn btn-primary">Add new crash</a>
+                  }
+                </div>
                 @foreach (Accident a in Model)
                 {
 
@@ -131,3 +136,4 @@
 
 
 <div class="mt-2" page-model="@ViewBag.PageInfo" page-action="AccidentList" page-filter="@ViewBag.Filter"></div>
+

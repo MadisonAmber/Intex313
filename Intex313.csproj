@@ -26,4 +26,10 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Views\Home\Admin\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Home\Admin\" />
+  </ItemGroup>
 </Project>
