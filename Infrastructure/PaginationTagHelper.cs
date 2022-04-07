@@ -1,9 +1,11 @@
-﻿using Intex313.Models.ViewModels;
+﻿using Intex313.Models;
+using Intex313.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,7 @@ namespace Intex313.Infrastructure
 
         public PageInfo PageModel { get; set; }
         public string PageAction { get; set; }
+        public Accident PageFilter { get; set; }
 
         public override void Process(TagHelperContext thc, TagHelperOutput tho)
         {
@@ -96,7 +99,7 @@ namespace Intex313.Infrastructure
 
             TagBuilder tb = new TagBuilder("a");
 
-            tb.Attributes["href"] = uh.Action(PageAction, new { pageNum = currentPageNum });
+            tb.Attributes["href"] = uh.Action(PageAction, new { pageNum = currentPageNum, filter = JsonConvert.SerializeObject(PageFilter) });
             tb.Attributes["class"] = "page-link";
 
             tb.InnerHtml.Append(pageText);

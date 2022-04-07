@@ -44,6 +44,8 @@ namespace Intex313
             services.AddControllersWithViews();
 
             services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddDefaultTokenProviders()
+                .AddDefaultUI()
                 .AddEntityFrameworkStores<AccidentDbContext>();
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -60,6 +62,7 @@ namespace Intex313
 
             //Repository method
             //services.AddScoped<IAccidentRepository, EFAccidentRepository>();
+            services.AddRazorPages();
 
         }
 
@@ -84,12 +87,16 @@ namespace Intex313
             app.UseAuthentication();
             app.UseAuthorization();
 
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                
             });
+            IdentitySeedData.EnsurePopulated(app);
         }
     }
 }

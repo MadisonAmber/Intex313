@@ -1,5 +1,4 @@
 ﻿@{
-    Layout = null;
 }
 
 
@@ -14,12 +13,9 @@
     <link href="~/css/Login.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="modal">
-        <form class="modal-content animate" asp-controller="Account" asp-action="Login">
-            <div class="imgcontainer">
-                <img src="~/img/Avatar.png" alt="Avatar" class="avatar">
-            </div>
-
+    <div class="">
+        <form asp-controller="Account" asp-action="Login">
+            
             <div class="container">
                 <label asp-for="Username"><b>Username</b></label>
                 <input asp-for="Username" type="text" placeholder="Enter Username" />
