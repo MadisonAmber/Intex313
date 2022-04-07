@@ -80,8 +80,8 @@ namespace Intex313
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseHttpsRedirection();
             app.UseCookiePolicy();
             app.UseRouting();
             app.UseAuthentication();
