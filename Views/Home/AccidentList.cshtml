@@ -1,18 +1,121 @@
 ﻿@model IEnumerable<Accident>
 
-@foreach(Accident a in Model)
-{
-    <div class="card">
-        <div class="card-header">
-            <h5>Accident #@a.Crash_ID</h5>
+<div class="">
+    <div class="row">
+        <div class="col-md-4">
+            <partial name="Filter" model="@ViewBag.Filter"/>
         </div>
-        <div class="card-body">
-            <h5 class="card-title">Located at @a.Main_Road_Name, @a.City in @a.County_Name, UTAH. </h5>
-            <p class="card-text">Time of Crash: @a.Crash_Date_Time</p>
-            <p class="card-text">Crash Severity: @a.Crash_Severity_ID</p>
-            <a asp-controller="Home" asp-action="AccidentSummary" asp-route-accidentid="@a.Crash_ID" class="btn btn-primary">Learn More</a>
+        <div class="col-md-8">
+            <div class="list-container">
+
+                @foreach(Accident a in Model)
+                 {
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="card-title">Accident on @a.Main_Road_Name</h5>
+                                </div>
+                                <div class="col-md-4" style="text-align: right;">
+                                    @if (a.Work_Zone_Related == true)
+                                    {
+                                        <span class="badge badge-pill badge-warning">Work Zone Related</span>
+                                    }
+                                    @if (a.Pedestrian_Involved == true)
+                                    {
+                                        <span class="badge badge-pill badge-info">Pedestrian Involved</span>
+                                    }
+                                    @if (a.Bicyclist_Involved == true)
+                                    {
+                                        <span class="badge badge-pill badge-info">Bicyclist Involved</span>
+                                    }
+                                    @if (a.Motorcycle_Involved == true)
+                                    {
+                                        <span class="badge badge-pill badge-info">Motorcycle Involved</span>
+                                    }
+                                    @if (a.Improper_Restraint == true)
+                                    {
+                                        <span class="badge badge-pill badge-secondary">Improper Restraint</span>
+                                    }
+                                    @if (a.Unrestrained == true)
+                                    {
+                                        <span class="badge badge-pill badge-secondary">Unrestrained</span>
+                                    }
+                                    @if (a.DUI == true)
+                                    {
+                                        <span class="badge badge-pill badge-danger">DUI (Driving Under the Influence)</span>
+                                    }
+                                    @if (a.Intersection_Related == true)
+                                    {
+                                        <span class="badge badge-pill badge-success">Intersection Related</span>
+                                    }
+                                    @if (a.Wild_Animal_Related == true)
+                                    {
+                                        <span class="badge badge-pill badge-success">Wild Animal Related</span>
+                                    }
+                                    @if (a.Domestic_Animal_Related == true)
+                                    {
+                                        <span class="badge badge-pill badge-sucess">Domestic Animal Involved</span>
+                                    }
+                                    @if (a.Overturn_Rollover == true)
+                                    {
+                                        <span class="badge badge-pill badge-danger">Overturn Rollover</span>
+                                    }
+                                    @if (a.Commercial_Motor_Veh_Involved == true)
+                                    {
+                                        <span class="badge badge-pill badge-info">Commercial Motor Vehicle Involved</span>
+                                    }
+                                    @if (a.Teenage_Driver_Involved == true)
+                                    {
+                                        <span class="badge badge-pill badge-info">Teenage Driver Involved</span>
+                                    }
+                                    @if (a.Older_Driver_Involved == true)
+                                    {
+                                        <span class="badge badge-pill badge-info">Older Driver Involved</span>
+                                    }
+                                    @if (a.Night_Dark_Condition == true)
+                                    {
+                                        <span class="badge badge-pill badge-dark">Nighttime/Dark Outside</span>
+                                    }
+                                    @if (a.Single_Vehicle == true)
+                                    {
+                                        <span class="badge badge-pill badge-primary">Single Vehicle</span>
+                                    }
+                                    @if (a.Distracted_Driving == true)
+                                    {
+                                        <span class="badge badge-pill badge-danger">Distracted Driving</span>
+                                    }
+                                    @if (a.Drowsy_Driving == true)
+                                    {
+                                        <span class="badge badge-pill badge-danger">Drowsy Driving</span>
+                                    }
+                                    @if (a.Roadway_Departure == true)
+                                    {
+                                        <span class="badge badge-pill badge-danger">Departed from the Roadway</span>
+                                    }
+                                </div>
+                            </div>
+
+                            <ul>
+                                <li>
+                                    <p class="card-text">Crash Date & Time: @a.Crash_Date_Time</p>
+                                </li>
+                                <li>
+                                    <p class="card-text">Crash Severity: @a.Crash_Severity_ID</p>
+                                </li>
+                            </ul>
+
+                            
+                            <a asp-controller="Home" asp-action="AccidentSummary" asp-route-accidentid="@a.Crash_ID" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                 }
+
+            </div>
         </div>
     </div>
-}
+</div>
 
-<div class="mt-2" page-model="@ViewBag.PageInfo" page-action="AccidentList"></div>
+
+<div class="mt-2" page-model="@ViewBag.PageInfo" page-action="AccidentList" page-filter="@ViewBag.Filter"></div>

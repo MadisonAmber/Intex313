@@ -2,27 +2,65 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center background">
-    <h1 class="display-4">Stay Seated - Don't Get Yeeted</h1>
-    <br />
-    <div class="shadow">
-        <img class="my-image-class" src="~/img/black and white car.jpg" />
-    </div>
+<link href="~/css/styles.css" rel="stylesheet" />
 
-    <br />
-    <div>
-        <h3 class="font-weight-bold">Utah Motor Vehicle Collision Summary</h3>
-        <h4>Every year, thousands of people are yeeted from their cars.</h4>
+
+@*<div class="text-center background">
+        <div class="jumbotron">
+            <h1 class="display-4">Stay Seated - Don't Get Yeeted</h1>
+            <br />
+            <div class="shadow">
+                <img class="my-image-class" src="~/img/black and white car.jpg" />
+            </div>
+        </div>
+
+        <br />
+        <div>
+            <h3 class="font-weight-bold">Utah Motor Vehicle Collision Summary</h3>
+            <h4>Every year, thousands of people are yeeted from their cars.</h4>
+        </div>
+        <div>
+            Data regarding Utah motor vehicle collisions have been collected from the years 2016, 2017, and 2019. The data has been cleaned,
+            analyzed, and summarized to create predictions for people to better understand the risks while driving. For example, Utahns seem to
+            have a bigger problem with distracted driving rather than drunk driving (thanks to all that <h7 class="font-italic">root</h7>beer).
+            <a href="https://www.udot.utah.gov/connect">Click here</a> to learn more about UDOT and what they're doing to help keep our communities safe
+            and improve public transportation.
+        </div>
+        <br />
+        <div>
+            This site is a valuable resource in learning more about various driving risks and what you may be at risk of each time you get in a vehicle.
+        </div>
+    </div>*@
+
+<!-- Masthead-->
+<header class="masthead">
+    <div class="container">
+        <div class="masthead-subheading">Stay Seated</div>
+        <div class="masthead-heading text-uppercase">Utah Crash Report</div>
+        <div class="masthead-subheading">Don't Get Yeeted</div>
+        @*        <a class="btn btn-primary btn-xl text-uppercase" href="#services">Tell Me More</a>
+        *@
     </div>
-    <div>
-        Data regarding Utah motor vehicle collisions have been collected from the years 2016, 2017, and 2019. The data has been cleaned,
-        analyzed, and summarized to create predictions for people to better understand the risks while driving. For example, Utahns seem to
-        have a bigger problem with distracted driving rather than drunk driving (thanks to all that <h7 class="font-italic">root</h7>beer).
-        <a href="https://www.udot.utah.gov/connect">Click here</a> to learn more about UDOT and what they're doing to help keep our communities safe
-        and improve public transportation.
+</header>
+<!-- Services-->
+<section class="page-section" id="services">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Utah Motor Vehicle Collision Summary</h2>
+            <h3 class="section-subheading text-muted">Every year, hundreds of people are yeeted from their cars in the state of Utah.</h3>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-12">
+                Data regarding Utah motor vehicle collisions have been collected from the years 2016, 2017, and 2019. The data has been cleaned,
+                analyzed, and summarized to create predictions for people to better understand the risks while driving. For example, Utahns seem to
+                have a bigger problem with distracted driving rather than drunk driving (thanks to all that <h7 class="font-italic">root</h7>beer).
+                <a href="https://www.udot.utah.gov/connect">Click here</a> to learn more about UDOT and what they're doing to help keep our communities safe
+                and improve public transportation.
+            </div>
+            <div class="col-md-12">
+                This site is a valuable resource in learning more about various driving risks and what you may be at risk of each time you get in a vehicle.
+            </div>
+
+        </div>
     </div>
-    <br />
-    <div>
-        This site is a valuable resource in learning more about various driving risks and what you may be at risk of each time you get in a vehicle.
-    </div>
-</div>
+</section>
