@@ -2,6 +2,7 @@
 using CsvHelper.Configuration;
 using Intex313.Models;
 using Intex313.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +44,7 @@ namespace Intex313.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult DownloadCsv(string filter)
         {
             Accident f = new Accident();
@@ -86,6 +88,7 @@ namespace Intex313.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult AccidentList(int pageNum = 1, string filter = "")
         {
 
@@ -105,12 +108,14 @@ namespace Intex313.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult AccidentList(Accident filter, int pageNum, string searchInput = "", string searchInputField = "") 
         {
             return getAccidentsByFilter(pageNum, filter, searchInput, searchInputField);
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Search(IFormCollection collection)
         {
             string filter = collection["Filter"];
@@ -137,6 +142,7 @@ namespace Intex313.Controllers
             return getAccidentsByFilter(1, f, searchInput, searchInputField);
         }
 
+        [Authorize]
         private IActionResult getAccidentsByFilter(int pageNum, Accident filter, string searchInput = "", string searchInputField = "")
         {
             int pageSize = 10;
@@ -165,6 +171,7 @@ namespace Intex313.Controllers
             return View("AccidentList", accidents);
         }
 
+        [Authorize]
         private string BuildQueryFilter(Accident filter, string InputValue = "", string InputValueField = "")
         {
             string filterString = "SELECT * FROM public.\"Accidents\" WHERE ";
@@ -240,6 +247,7 @@ namespace Intex313.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int accidentid)
         {
             Accident a = context.Accidents
@@ -248,6 +256,7 @@ namespace Intex313.Controllers
             return View(a);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(Accident accident)
         {
             context.Update(accident);
@@ -256,6 +265,7 @@ namespace Intex313.Controllers
             return RedirectToAction("AccidentList");
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Add()
         {
             Accident a = new Accident();
@@ -264,6 +274,7 @@ namespace Intex313.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Add(Accident a)
         {
             if (ModelState.IsValid)
@@ -288,6 +299,7 @@ namespace Intex313.Controllers
             }
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int accidentid)
         {
             Accident ac = context.Accidents.Single(x => x.Crash_ID == accidentid);
@@ -295,6 +307,7 @@ namespace Intex313.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(Accident a)
         {
             context.Accidents.Remove(a);
@@ -304,6 +317,7 @@ namespace Intex313.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult AccidentSummary(int accidentid)
         {
             List<String> accidentTypes = new List<String>();
@@ -392,6 +406,7 @@ namespace Intex313.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Predictor()
         {
             return View();

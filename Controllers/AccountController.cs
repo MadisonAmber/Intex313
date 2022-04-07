@@ -1,4 +1,5 @@
 ﻿using Intex313.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -50,11 +51,13 @@ namespace Intex313.Controllers
             return View(loginModel);
         }
 
+        [Authorize]
         public IActionResult Profile()
         {
             return View();
         }
 
+        [Authorize]
         public async Task<RedirectResult> Logout(string returnUrl = "/")
         {
             await signInManager.SignOutAsync();
