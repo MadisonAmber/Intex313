@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.ML.OnnxRuntime;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -51,6 +52,11 @@ namespace Intex313
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            //Add for ONNX file
+            services.AddSingleton<InferenceSession>(
+              new InferenceSession("Utah_Crash_Data.onnx")
+            );
 
             //Repository method
             //services.AddScoped<IAccidentRepository, EFAccidentRepository>();
