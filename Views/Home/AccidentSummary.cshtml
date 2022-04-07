@@ -48,7 +48,10 @@
                             <h6 class="m-0 font-weight-bold text-primary">Accident Details</h6>
                         </div>
                         <div class="card-body">
-                            <a asp-controller="Home" asp-action="Edit" asp-route-accidentid="@Model.Crash_ID" class="btn btn-outline-secondary ml-2">Edit</a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="Home" asp-action="Edit" asp-route-accidentid="@Model.Crash_ID" class="btn btn-outline-secondary ml-2">Edit</a>
+                            }
                             <p>
                                 This motor vehicle incident took place at @Model.Main_Road_Name @Model.City, @Model.County_Name.
                             </p>
