@@ -110,6 +110,7 @@
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
 
+                    @*Use only if user is authenticated*@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <form method="post" asp-controller="Home" asp-action="Search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
