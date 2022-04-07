@@ -3,128 +3,121 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
 
-<div class="">
+
+<div style="padding: 5px;">
     <div class="row">
         <div class="col-md-4">
             <partial name="Filter" model="@ViewBag.Filter" />
         </div>
         <div class="col-md-8">
-            <div class="list-container">
+            <div class="list-container p-2">
                 <div>
-                  @if (this.User.Identity.IsAuthenticated)
+                  @if (User.IsInRole("Admin"))
                   {
-                      <a asp-controller="Home" asp-action="Add" class="btn btn-primary">Add new crash</a>
+                      <a asp-controller="Home" asp-action="Add" class="btn btn-primary mb-2">Add New Crash</a>
                   }
                 </div>
                 @foreach (Accident a in Model)
                 {
 
-                    <div class="card">
+                    <div class="card mb-2">
 
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-6">
                                     <h5 class="card-title">Accident on @a.Main_Road_Name</h5>
                                 </div>
-                                <div class="col-md-4" style="text-align: right;">
-                                    @if (a.Work_Zone_Related == true)
+                                <div class="col-md-6" style="text-align: right;">
+                                    <a asp-controller="Home" asp-action="AccidentSummary" asp-route-accidentid="@a.Crash_ID" class="btn btn-primary">See More</a>
+                                    @if (User.IsInRole("Admin"))
                                     {
-                                        <span class="badge badge-pill badge-warning">Work Zone Related</span>
-                                    }
-                                    @if (a.Pedestrian_Involved == true)
-                                    {
-                                        <span class="badge badge-pill badge-info">Pedestrian Involved</span>
-                                    }
-                                    @if (a.Bicyclist_Involved == true)
-                                    {
-                                        <span class="badge badge-pill badge-info">Bicyclist Involved</span>
-                                    }
-                                    @if (a.Motorcycle_Involved == true)
-                                    {
-                                        <span class="badge badge-pill badge-info">Motorcycle Involved</span>
-                                    }
-                                    @if (a.Improper_Restraint == true)
-                                    {
-                                        <span class="badge badge-pill badge-secondary">Improper Restraint</span>
-                                    }
-                                    @if (a.Unrestrained == true)
-                                    {
-                                        <span class="badge badge-pill badge-secondary">Unrestrained</span>
-                                    }
-                                    @if (a.DUI == true)
-                                    {
-                                        <span class="badge badge-pill badge-danger">DUI (Driving Under the Influence)</span>
-                                    }
-                                    @if (a.Intersection_Related == true)
-                                    {
-                                        <span class="badge badge-pill badge-success">Intersection Related</span>
-                                    }
-                                    @if (a.Wild_Animal_Related == true)
-                                    {
-                                        <span class="badge badge-pill badge-success">Wild Animal Related</span>
-                                    }
-                                    @if (a.Domestic_Animal_Related == true)
-                                    {
-                                        <span class="badge badge-pill badge-sucess">Domestic Animal Involved</span>
-                                    }
-                                    @if (a.Overturn_Rollover == true)
-                                    {
-                                        <span class="badge badge-pill badge-danger">Overturn Rollover</span>
-                                    }
-                                    @if (a.Commercial_Motor_Veh_Involved == true)
-                                    {
-                                        <span class="badge badge-pill badge-info">Commercial Motor Vehicle Involved</span>
-                                    }
-                                    @if (a.Teenage_Driver_Involved == true)
-                                    {
-                                        <span class="badge badge-pill badge-info">Teenage Driver Involved</span>
-                                    }
-                                    @if (a.Older_Driver_Involved == true)
-                                    {
-                                        <span class="badge badge-pill badge-info">Older Driver Involved</span>
-                                    }
-                                    @if (a.Night_Dark_Condition == true)
-                                    {
-                                        <span class="badge badge-pill badge-dark">Nighttime/Dark Outside</span>
-                                    }
-                                    @if (a.Single_Vehicle == true)
-                                    {
-                                        <span class="badge badge-pill badge-primary">Single Vehicle</span>
-                                    }
-                                    @if (a.Distracted_Driving == true)
-                                    {
-                                        <span class="badge badge-pill badge-danger">Distracted Driving</span>
-                                    }
-                                    @if (a.Drowsy_Driving == true)
-                                    {
-                                        <span class="badge badge-pill badge-danger">Drowsy Driving</span>
-                                    }
-                                    @if (a.Roadway_Departure == true)
-                                    {
-                                        <span class="badge badge-pill badge-danger">Departed from the Roadway</span>
+                                        <a asp-controller="Home" asp-action="Edit" asp-route-accidentid="@a.Crash_ID" class="btn btn-outline-secondary ml-2">Edit</a>
+                                        <a asp-controller="Home" asp-action="Delete" asp-route-accidentid="@a.Crash_ID" class="btn btn-outline-danger ml-2">Delete</a>
                                     }
                                 </div>
                             </div>
 
-                            <ul>
-                                <li>
-                                    <p class="card-text">Crash Date & Time: @a.Crash_Date_Time</p>
-                                </li>
-                                <li>
-                                    <p class="card-text">Crash Severity: @a.Crash_Severity_ID</p>
-                                </li>
-                            </ul>
+                            <p class="card-text">This accident occurred in @a.City (@a.County_Name County).</p>
+                            
 
-
-                            <a asp-controller="Home" asp-action="AccidentSummary" asp-route-accidentid="@a.Crash_ID" class="btn btn-primary">Learn More</a>
-                            @if (SignInManager.IsSignedIn(User))
+                            @if (a.Work_Zone_Related == true)
                             {
-                                <a asp-controller="Home" asp-action="Edit" asp-route-accidentid="@a.Crash_ID" class="btn btn-primary">Edit</a>
-                                <a asp-controller="Home" asp-action="Delete" asp-route-accidentid="@a.Crash_ID" class="btn btn-primary">Delete</a>
+                                <span class="badge badge-pill badge-warning">Work Zone Related</span>
                             }
+                            @if (a.Pedestrian_Involved == true)
+                            {
+                                <span class="badge badge-pill badge-info">Pedestrian Involved</span>
+                            }
+                            @if (a.Bicyclist_Involved == true)
+                            {
+                                <span class="badge badge-pill badge-info">Bicyclist Involved</span>
+                            }
+                            @if (a.Motorcycle_Involved == true)
+                            {
+                                <span class="badge badge-pill badge-info">Motorcycle Involved</span>
+                            }
+                            @if (a.Improper_Restraint == true)
+                            {
+                                <span class="badge badge-pill badge-secondary">Improper Restraint</span>
+                            }
+                            @if (a.Unrestrained == true)
+                            {
+                                <span class="badge badge-pill badge-secondary">Unrestrained</span>
+                            }
+                            @if (a.DUI == true)
+                            {
+                                <span class="badge badge-pill badge-danger">DUI (Driving Under the Influence)</span>
+                            }
+                            @if (a.Intersection_Related == true)
+                            {
+                                <span class="badge badge-pill badge-success">Intersection Related</span>
+                            }
+                            @if (a.Wild_Animal_Related == true)
+                            {
+                                <span class="badge badge-pill badge-success">Wild Animal Related</span>
+                            }
+                            @if (a.Domestic_Animal_Related == true)
+                            {
+                                <span class="badge badge-pill badge-sucess">Domestic Animal Involved</span>
+                            }
+                            @if (a.Overturn_Rollover == true)
+                            {
+                                <span class="badge badge-pill badge-danger">Overturn Rollover</span>
+                            }
+                            @if (a.Commercial_Motor_Veh_Involved == true)
+                            {
+                                <span class="badge badge-pill badge-info">Commercial Motor Vehicle Involved</span>
+                            }
+                            @if (a.Teenage_Driver_Involved == true)
+                            {
+                                <span class="badge badge-pill badge-info">Teenage Driver Involved</span>
+                            }
+                            @if (a.Older_Driver_Involved == true)
+                            {
+                                <span class="badge badge-pill badge-info">Older Driver Involved</span>
+                            }
+                            @if (a.Night_Dark_Condition == true)
+                            {
+                                <span class="badge badge-pill badge-dark">Nighttime/Dark Outside</span>
+                            }
+                            @if (a.Single_Vehicle == true)
+                            {
+                                <span class="badge badge-pill badge-primary">Single Vehicle</span>
+                            }
+                            @if (a.Distracted_Driving == true)
+                            {
+                                <span class="badge badge-pill badge-danger">Distracted Driving</span>
+                            }
+                            @if (a.Drowsy_Driving == true)
+                            {
+                                <span class="badge badge-pill badge-danger">Drowsy Driving</span>
+                            }
+                            @if (a.Roadway_Departure == true)
+                            {
+                                <span class="badge badge-pill badge-danger">Departed from the Roadway</span>
+                            }
+
                         </div>
                     </div>
                 }

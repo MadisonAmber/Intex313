@@ -2,11 +2,14 @@
 using CsvHelper.Configuration;
 using Intex313.Models;
 using Intex313.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Microsoft.ML.OnnxRuntime;
+using Microsoft.ML.OnnxRuntime.Tensors;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,9 +23,13 @@ namespace Intex313.Controllers
     public class HomeController : Controller
     {
         private AccidentDbContext context{ get; set; }
-        public HomeController(AccidentDbContext temp)
+
+        //Instance of an Inference Session
+        private InferenceSession _session { get; set; }
+        public HomeController(AccidentDbContext temp, InferenceSession session)
         {
             context = temp;
+            _session = session;
         }
         public IActionResult Index(int accidentid)
         {
@@ -43,6 +50,7 @@ namespace Intex313.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult DownloadCsv(string filter)
         {
             Accident f = new Accident();
@@ -86,6 +94,7 @@ namespace Intex313.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult AccidentList(int pageNum = 1, string filter = "")
         {
 
@@ -105,12 +114,14 @@ namespace Intex313.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult AccidentList(Accident filter, int pageNum, string searchInput = "", string searchInputField = "") 
         {
             return getAccidentsByFilter(pageNum, filter, searchInput, searchInputField);
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Search(IFormCollection collection)
         {
             string filter = collection["Filter"];
@@ -137,6 +148,7 @@ namespace Intex313.Controllers
             return getAccidentsByFilter(1, f, searchInput, searchInputField);
         }
 
+        [Authorize]
         private IActionResult getAccidentsByFilter(int pageNum, Accident filter, string searchInput = "", string searchInputField = "")
         {
             int pageSize = 10;
@@ -165,6 +177,7 @@ namespace Intex313.Controllers
             return View("AccidentList", accidents);
         }
 
+        [Authorize]
         private string BuildQueryFilter(Accident filter, string InputValue = "", string InputValueField = "")
         {
             string filterString = "SELECT * FROM public.\"Accidents\" WHERE ";
@@ -240,6 +253,7 @@ namespace Intex313.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int accidentid)
         {
             Accident a = context.Accidents
@@ -248,6 +262,7 @@ namespace Intex313.Controllers
             return View(a);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(Accident accident)
         {
             context.Update(accident);
@@ -256,6 +271,7 @@ namespace Intex313.Controllers
             return RedirectToAction("AccidentList");
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Add()
         {
             Accident a = new Accident();
@@ -264,6 +280,7 @@ namespace Intex313.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Add(Accident a)
         {
             if (ModelState.IsValid)
@@ -288,6 +305,7 @@ namespace Intex313.Controllers
             }
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int accidentid)
         {
             Accident ac = context.Accidents.Single(x => x.Crash_ID == accidentid);
@@ -295,6 +313,7 @@ namespace Intex313.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(Accident a)
         {
             context.Accidents.Remove(a);
@@ -304,98 +323,218 @@ namespace Intex313.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult AccidentSummary(int accidentid)
         {
-            List<String> accidentTypes = new List<String>();
+            List<string> accidentTypes = new List<string>();
+            List<int> numOfAccidents = new List<int>();
+            
 
             Accident a = context.Accidents.FirstOrDefault(x => x.Crash_ID == accidentid);
 
             if(a.Work_Zone_Related == true)
             {
                 accidentTypes.Add("Work Zone Related");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Work_Zone_Related == true).Count());
             }
             if(a.Pedestrian_Involved == true)
             {
                 accidentTypes.Add("Pedestrian Involved");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Pedestrian_Involved == true).Count());
             }
             if (a.Bicyclist_Involved == true)
             {
                 accidentTypes.Add("Bicyclist Involved");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Bicyclist_Involved == true).Count());
             }
             if (a.Motorcycle_Involved == true)
             {
                 accidentTypes.Add("Motorcycle Involved");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Motorcycle_Involved == true).Count());
             }
             if (a.Improper_Restraint == true)
             {
                 accidentTypes.Add("Improper Restraint");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Improper_Restraint == true).Count());
             }
             if (a.Unrestrained == true)
             {
                 accidentTypes.Add("Unrestrained");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Unrestrained == true).Count());
             }
             if (a.DUI == true)
             {
                 accidentTypes.Add("DUI (Driving Under the Influence)");
+                numOfAccidents.Add(context.Accidents.Where(x => x.DUI == true).Count());
             }
             if (a.Intersection_Related == true)
             {
                 accidentTypes.Add("Intersection Related");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Intersection_Related == true).Count());
             }
             if (a.Wild_Animal_Related == true)
             {
                 accidentTypes.Add("Wild Animal Related");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Wild_Animal_Related == true).Count());
             }
             if (a.Domestic_Animal_Related == true)
             {
                 accidentTypes.Add("Domestic Animal Related");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Domestic_Animal_Related == true).Count());
             }
             if (a.Overturn_Rollover == true)
             {
                 accidentTypes.Add("Overturn Rollover");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Overturn_Rollover == true).Count());
             }
             if (a.Commercial_Motor_Veh_Involved == true)
             {
                 accidentTypes.Add("Commercial Motor Vehicle Involved");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Commercial_Motor_Veh_Involved == true).Count());
             }
             if (a.Teenage_Driver_Involved == true)
             {
                 accidentTypes.Add("Teenage Driver Involved");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Teenage_Driver_Involved == true).Count());
             }
             if (a.Older_Driver_Involved == true)
             {
                 accidentTypes.Add("Older Driver Involved");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Older_Driver_Involved == true).Count());
             }
             if (a.Night_Dark_Condition == true)
             {
                 accidentTypes.Add("Nighttime/Dark Outside");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Night_Dark_Condition == true).Count());
             }
             if (a.Single_Vehicle == true)
             {
                 accidentTypes.Add("Single Vehicle");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Single_Vehicle == true).Count());
             }
             if (a.Distracted_Driving == true)
             {
                 accidentTypes.Add("Distracted Driving");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Distracted_Driving == true).Count());
             }
             if (a.Drowsy_Driving == true)
             {
                 accidentTypes.Add("Drowsy Driving");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Drowsy_Driving == true).Count());
             }
             if (a.Roadway_Departure == true)
             {
                 accidentTypes.Add("Departed from the Roadway");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Roadway_Departure == true).Count());
             }
+
+            ViewBag.AccidentCounts = numOfAccidents;
 
             ViewBag.AccidentTypes = accidentTypes;
             return View(a);
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Predictor()
         {
             return View();
         }
 
+        [HttpPost]
+        public IActionResult SeverityPrediction(FormData data)
+        {
+            var result = _session.Run(new List<NamedOnnxValue>
+            {
+                NamedOnnxValue.CreateFromTensor("float_input", data.AsTensor())
+            });
+
+            Tensor<string> score = result.First().AsTensor<string>();
+
+            var prediction = new Prediction { PredictedValue = score.First() };
+            result.Dispose();
+
+            //Determine what resources to display
+            Array array;  //Create empty array
+            List<Resource> links = new List<Resource>();  //Create a list of url links
+
+            //Add initial link that will always appear
+            links.Add(new Resource
+            {
+                Link = "https://www.mostinside.com/5-ways-to-make-roads-safer-all/#:~:text=%205%20Ways%20to%20Make%20Roads%20Safer%20All,they%20truly%20provide%20you%20with%20a...%20More%20",
+                Tag = "General Road Safety Practices"
+            });
+
+            //Add records based off of conditions being met
+            if (data.Work_Zone == 1)
+            {
+                links.Add(new Resource 
+                {
+                    Link = "https://blog.creativesafetysupply.com/getting-zone-keep-road-work-zones-safe-accident-free/", 
+                    Tag = "Work Zone Saftey Tips"
+                });
+            }
+            if (data.Pedestrian == 1)
+            {
+                links.Add(new Resource
+                {
+                    Link = "https://gizmodo.com/5-ideas-to-make-roads-safer-for-cars-and-pedestrians-1533163537",
+                    Tag = "Keeping pedestrians safe when vehicles are present"
+                });
+            }
+            if (data.Motorcycle == 1)
+            {
+                links.Add(new Resource
+                {
+                    Link = "http://www.fema-online.eu/website/index.php/2018/01/05/how-can-we-make-our-roads-safer-for-motorcyclists/#:~:text=%20How%20can%20we%20make%20our%20roads%20safer,we%20try%20to%20find%20and%20provide...%20More%20",
+                    Tag = "Ways to make roads safer for motocycles"
+                });
+            }
+            if (data.Intersection == 1)
+            {
+                links.Add(new Resource
+                {
+                    Link = "https://www.trafficsafetystore.com/blog/engineering-tips-make-city-intersections-safer/",
+                    Tag = "Making intersections safer for vehicles and pedestrians"
+                });
+            }
+            if (data.Teenage_Driver == 1)
+            {
+                links.Add(new Resource
+                {
+                    Link = "https://youth.gov/youth-topics/ways-promote-safe-driving-youth#:~:text=To%20address%20the%20complexity%20of%20factors%20around%20teen,and%20increasing%20the%20focus%20on%20parental%20responsibility%20%282010%29.",
+                    Tag = "How cities and communities can help teenagers drive safer"
+                });
+            }
+            if (data.Older_Driver == 1)
+            {
+                links.Add(new Resource
+                {
+                    Link = "https://www.cdc.gov/injury/features/older-driver-safety/index.html",
+                    Tag = "Tips for older drivers to keep roads safe"
+                });
+            }
+            if (data.Night_Condition == 1)
+            {
+                links.Add(new Resource
+                {
+                    Link = "https://www.trafficsafetystore.com/blog/7-roadway-engineering-design-strategies-to-make-roads-safer-for-drivers/",
+                    Tag = "Making roads safer for night-time driving"
+                });
+            }
+            if (data.Roadway_Departure == 1)
+            {
+                links.Add(new Resource
+                {
+                    Link = "https://ttap.utk.edu/techtransfer/issues/33/2019summer.pdf",
+                    Tag = "Engineering tips to create safer roadway departure zones"
+                });
+            }
+
+            array = links.ToArray();  //Add links to array
+            ViewBag.Links = array;  //Assign the array to a ViewBag
+
+            return View("SeverityPrediction", prediction);
+        }
     }
 }

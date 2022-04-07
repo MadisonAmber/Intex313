@@ -1,0 +1,35 @@
+﻿@{
+}
+
+@model Prediction
+
+<!--Displays the predicted value and helpful resources-->
+<div class="container">
+    <h1>Potential Crash Severity: @Model.PredictedValue</h1>
+
+    <!--Display message based on crash severity-->
+    @if (Model.PredictedValue == "1" || Model.PredictedValue == "2")
+    {
+        <h3>Crash severity is LOW. Thank you for helping keep Utah roads safer for everyone.</h3>
+    }
+    @if (Model.PredictedValue == "3")
+    {
+        <h3>Crash severity is MEDIUM. The resources below can help minimize crash likelihood and severity even further.</h3>
+    }
+    @if (Model.PredictedValue == "4" || Model.PredictedValue == "5")
+    {
+        <h3>Crash severity is HIGH. Please use the resources below to learn how to make the roads safer and crashes less likely to occur in this area.</h3>
+    }
+</div><br /><br />
+
+<!--Links to resources based on the user inputs-->
+<div class="container border-light">
+    <h2>Helpful Resources:</h2>
+    <br />
+
+    @foreach (Resource href in (Resource[])ViewBag.Links)
+    {
+        <a class="text-md-left" href="@href.Link">@href.Tag</a><br />
+    }
+
+</div>

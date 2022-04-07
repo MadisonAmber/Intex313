@@ -71,7 +71,7 @@ body {
 
 .list-container {
     height: calc(100vh - 234px);
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .filter-container {
@@ -79,6 +79,18 @@ body {
     border-radius: 5px;
     padding: 5px;
     background-color: #fff;
+    overflow-y: auto;
+    height: calc(100vh - 234px);
+}
+
+@media (max-height: 900px) {
+    .list-container {
+        height: calc(100vh - 140px);
+    }
+
+    .filter-container {
+        height: calc(100vh - 140px);
+    }
 }
 
 
