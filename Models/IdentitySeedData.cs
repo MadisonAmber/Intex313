@@ -55,7 +55,7 @@ namespace Intex313.Models
             if (user == null)
             {
                 user = new IdentityUser(adminUser);
-                user.Email = "guest@gmail.com";
+                user.Email = "admin@admin.com";
                 user.PhoneNumber = "123-4567";
 
                 var createAdminUser = await userManager.CreateAsync(user, adminPassword);
@@ -68,7 +68,7 @@ namespace Intex313.Models
             if (TAuser == null)
             {
                 TAuser = new IdentityUser(TAUser);
-                TAuser.Email = "email@gmail.com";
+                TAuser.Email = "guest@gmail.com";
                 TAuser.PhoneNumber = "223-4567";
 
                 var createRegularUser = await userManager.CreateAsync(TAuser, TAPass);
