@@ -1,8 +1,8 @@
 ﻿@{
+    ViewData["Title"] = "Severity Prediction";
 }
 
 @model Prediction
-
 <!--Displays the predicted value and helpful resources-->
 <div class="container">
     <h1>Potential Crash Severity: @Model.PredictedValue</h1>
@@ -20,7 +20,9 @@
     {
         <h3>Crash severity is HIGH. Please use the resources below to learn how to make the roads safer and crashes less likely to occur in this area.</h3>
     }
-</div><br /><br />
+</div>
+<br />
+<br />
 
 <!--Links to resources based on the user inputs-->
 <div class="container border-light">
