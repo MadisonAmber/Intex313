@@ -3,10 +3,11 @@
 }
 @model Accident
 
-<div>
-    <h1>Accident Summary</h1>
-</div>
-
+<section>
+        <div class="ml-lg-2">
+            <h1>Accident Summary</h1>
+        </div>
+</section>
 
 <div class="container-fluid">
     <div class="row">
@@ -14,7 +15,7 @@
             <div class="card shadow mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Accident at @Model.Main_Road_Name</h5>
-                    <p class="card-text">This accident happened in @Model.City, UTAH.</p>
+                    <p class="card-text">This accident happened in <span style="text-transform: capitalize;">@(Model.City.ToLower())</span>, Utah.</p>
 
                     @foreach (String accidentType in ViewBag.AccidentTypes)
                     {
@@ -24,18 +25,19 @@
             </div>
 
             <div class="card shadow mb-4">
-               
+
                 <!-- Chart Body -->
                 <div class="card-body">
                     <div class="chart-pie pt-4 pb-2">
                         <p style="font-size: 15px; font-weight: bold; text-align: center;" class="mb-2">Total Number of Similar Accidents (By Type)</p>
                         <canvas id="myPieChart"></canvas>
                     </div>
-                    
+
                 </div>
             </div>
 
         </div>
+
         <div class="col-md-8">
             <!-- Content Row -->
             <div class="row">
@@ -44,71 +46,69 @@
 
                     <!-- Approach -->
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3" style="display: flex; justify-content: space-between; align-items: center;">
                             <h6 class="m-0 font-weight-bold text-primary">Accident Details</h6>
-                        </div>
-                        <div class="card-body">
                             @if (User.IsInRole("Admin"))
                             {
-                                <a asp-controller="Home" asp-action="Edit" asp-route-accidentid="@Model.Crash_ID" class="btn btn-outline-secondary ml-2">Edit</a>
+                                <a asp-controller="Home" asp-action="Edit" asp-route-accidentid="@Model.Crash_ID" class="btn btn-primary ml-2">Edit</a>
                             }
+                        </div>
+                        <div class="card-body">
                             <p>
-                                This motor vehicle incident took place at @Model.Main_Road_Name @Model.City, @Model.County_Name.
-                            </p>
-                            <p class="mb-0">
-                                <ul>
-                                    <li>
-                                        Route: @Model.Route
-                                    </li>
-                                    <li>
-                                        Milepoint: @Model.MilePoint
-                                    </li>
-                                    <li>
-                                        Latitude: @Model.Lat_Utm_Y
-                                    </li>
-                                    <li>
-                                        Longitude: @Model.Long_Utm_Y
-                                    </li>
-                                </ul>
+                                This motor vehicle incident took place at <span style="text-transform: capitalize;">@(Model.Main_Road_Name.ToLower())</span> in <span style="text-transform: capitalize;">@(Model.City.ToLower())</span>, <span style="text-transform: capitalize;">@(Model.County_Name.ToLower())</span>, Utah. The crash severity was a @Model.Crash_Severity_ID.
+                                    @if (Model.Crash_Severity_ID == 1)
+                                    {
+                                        <p>The severity of this particular incident was very low, meaning the crash most likely did not result in any injuries or fatalities.</p>
+                                    }
+                                    @if (Model.Crash_Severity_ID == 2)
+                                    {
+                                        <p>The severity of this particular incident was low, meaning the crash may have resulted in possible injuries.</p>
+                                    }
+                                    @if (Model.Crash_Severity_ID == 3)
+                                    {
+                                        <p>The severity of this particular incident was around average, meaning the crash may have resulted in minor injuries.</p>
+                                    }
+                                    @if (Model.Crash_Severity_ID == 4)
+                                    {
+                                        <p>The severity of this particular incident was high, meaning the crash likely resulted in serious injuries.</p>
+                                    }
+                                    else if (Model.Crash_Severity_ID == 5)
+                                    {
+                                        <p>The severity of this particular incident was very high, meaning the crash most likely resulted in fatalities.</p>
+                                    }
                             </p>
 
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>Crash Severity</th>
+                                        <th>Route</th>
+                                        <th>Milepoint</th>
+                                        <th>Latitude</th>
+                                        <th>Longitude</th>
                                         <th>Date & Time of Incident</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <div>
-                                                <div class="font-weight-bold">
-                                                    @Model.Crash_Severity_ID -
-                                                </div>
-                                                <div>
-                                                    @if (Model.Crash_Severity_ID == 1)
-                                                    {
-                                                        <p>The severity of this particular incident was very low, meaning the crash most likely did not result in any injuries or fatalities.</p>
-                                                    }
-                                                    @if (Model.Crash_Severity_ID == 2)
-                                                    {
-                                                        <p>The severity of this particular incident was low, meaning the crash may have resulted in possible injuries.</p>
-                                                    }
-                                                    @if (Model.Crash_Severity_ID == 3)
-                                                    {
-                                                        <p>The severity of this particular incident was around average, meaning the crash may have resulted in minor injuries.</p>
-                                                    }
-                                                    @if (Model.Crash_Severity_ID == 4)
-                                                    {
-                                                        <p>The severity of this particular incident was high, meaning the crash likely resulted in serious injuries.</p>
-                                                    }
-                                                    else if (Model.Crash_Severity_ID == 5)
-                                                    {
-                                                        <p>The severity of this particular incident was very high, meaning the crash most likely resulted in fatalities.</p>
-                                                    }
-                                                </div>
-                                            </div>
+                                            @if (Model.Route == "")
+                                            {
+                                                <p>No Route Available</p>
+                                            }
+                                            else
+                                            {
+                                                @Model.Route
+                                            }
+
+                                        </td>
+                                        <td>
+                                            @Model.MilePoint
+                                        </td>
+                                        <td>
+                                            @Model.Lat_Utm_Y
+                                        </td>
+                                        <td>
+                                            @Model.Long_Utm_Y
                                         </td>
                                         <td>
                                             @Model.Crash_Date_Time
@@ -121,7 +121,7 @@
 
                 </div>
             </div>
-            
+
         </div>
     </div>
 
@@ -161,7 +161,7 @@
 
 
     </script>
-   
+
 
     <!-- Content Row -->
     <!--<div class="row">
@@ -183,58 +183,55 @@
                 </div>
             </div>
         </div>-->
-
-        <!-- Earnings (Monthly) Card Example -->
-        <!--<div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Earnings (Annual)
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+    <!-- Earnings (Monthly) Card Example -->
+    <!--<div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Earnings (Annual)
                         </div>
-                        <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                     </div>
                 </div>
             </div>
-        </div>-->
-
-        <!-- Earnings (Monthly) Card Example -->
-        <!--<div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                Tasks
+        </div>
+    </div>-->
+    <!-- Earnings (Monthly) Card Example -->
+    <!--<div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Tasks
+                        </div>
+                        <div class="row no-gutters align-items-center">
+                            <div class="col-auto">
+                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
                             </div>
-                            <div class="row no-gutters align-items-center">
-                                <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                </div>
-                                <div class="col">
-                                    <div class="progress progress-sm mr-2">
-                                        <div class="progress-bar bg-info" role="progressbar"
-                                             style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                             aria-valuemax="100"></div>
-                                    </div>
+                            <div class="col">
+                                <div class="progress progress-sm mr-2">
+                                    <div class="progress-bar bg-info" role="progressbar"
+                                         style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                                         aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-auto">
-                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
                     </div>
                 </div>
             </div>
-        </div>-->
-
-        <!-- Pending Requests Card Example -->
-        <!--<div class="col-xl-3 col-md-6 mb-4">
+        </div>
+    </div>-->
+    <!-- Pending Requests Card Example -->
+    <!--<div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-warning shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -252,64 +249,60 @@
             </div>
         </div>
     </div>-->
-
     <!-- Content Row -->
-
     <!--<div class="row">-->
-
-        <!-- Area Chart -->
-        <!--<div class="col-xl-8 col-lg-7">
-            <div class="card shadow mb-4">-->
-                <!-- Card Header - Dropdown -->
-                <!--<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Number of Accidents Over Time</h6>
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                             aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div>
-                </div>-->
-                <!-- Card Body -->
-                <!--<div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="myAreaChart"></canvas>
-                    </div>
+    <!-- Area Chart -->
+    <!--<div class="col-xl-8 col-lg-7">
+        <div class="card shadow mb-4">-->
+    <!-- Card Header - Dropdown -->
+    <!--<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Number of Accidents Over Time</h6>
+        <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                 aria-labelledby="dropdownMenuLink">
+                <div class="dropdown-header">Dropdown Header:</div>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </div>
+    </div>-->
+    <!-- Card Body -->
+    <!--<div class="card-body">
+                <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
                 </div>
             </div>
-        </div>-->
-
-        <!-- Pie Chart -->
-        <!--<div class="col-xl-4 col-lg-5">
-            <div class="card shadow mb-4">-->
-                <!-- Card Header - Dropdown -->
-                <!--<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Revenue Source</h6>
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                             aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div>
-                </div>-->
-                <!-- Card Body -->
-                <!--<div class="card-body">
+        </div>
+    </div>-->
+    <!-- Pie Chart -->
+    <!--<div class="col-xl-4 col-lg-5">
+        <div class="card shadow mb-4">-->
+    <!-- Card Header - Dropdown -->
+    <!--<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Revenue Source</h6>
+        <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                 aria-labelledby="dropdownMenuLink">
+                <div class="dropdown-header">Dropdown Header:</div>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </div>
+    </div>-->
+    <!-- Card Body -->
+    <!--<div class="card-body">
                     <div class="chart-pie pt-4 pb-2">
                         <canvas id="myPieChart"></canvas>
                     </div>
