@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Login Screens:</h6>
+                <a id="manage" class="collapse-item" asp-area="Identity" asp-page="/Account/Manage/Index">Profile</a>
+                <a class="collapse-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Email">Email</a>
+                <a class="collapse-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/ChangePassword">Change Password</a>
+                <a class="collapse-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/TwoFactorAuthentication">2FA</a>
+                <a class="collapse-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/PersonalData">Personal Data</a>
+                <form id="logoutForm" class="collapse-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button id="logout" type="submit" class="collapse-item" style="background:none;border:none;padding:0;margin-left:0;">Logout</button>
+                </form>
+
+
+                <div class="collapse-divider"></div>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Login Screens:</h6>
+                <a class="collapse-item" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                <a class="collapse-item" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                <div class="collapse-divider"></div>
+            </div>
+        </div>
+    }
+
+
