@@ -236,7 +236,8 @@ namespace Intex313.Controllers
 
             return filterString;
         }
-            
+
+
 
         [HttpGet]
         public IActionResult Edit(int accidentid)
@@ -254,12 +255,9 @@ namespace Intex313.Controllers
 
             return RedirectToAction("AccidentList");
         }
-
         [HttpGet]
         public IActionResult Add()
         {
-            List<Accident> accidents = context.Accidents.ToList();
-
             Accident a = new Accident();
 
             return View("Edit", a);
@@ -286,8 +284,6 @@ namespace Intex313.Controllers
             }
             else
             {
-                List<Accident> accidents = context.Accidents.ToList();
-                ViewBag.Accidents = accidents;
                 return View("Edit", a);
             }
         }
