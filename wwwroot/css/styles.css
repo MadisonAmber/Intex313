@@ -2,14 +2,15 @@ header.masthead {
     padding-top: 10.5rem;
     padding-bottom: 6rem;
     text-align: center;
-    color: #fff;
-    background-image: url('../img/black and white car.jpg');
+    color: #000000;
+    background-image: url('../img/salt flats.jpg');
     background-repeat: no-repeat;
     background-attachment: scroll;
     background-position: center center;
     background-size: cover;
 }
 header.masthead .masthead-subheading {
+  color: darkred;
   font-size: 1.5rem;
   font-style: italic;
   line-height: 1.5rem;

@@ -40,23 +40,23 @@
                             <div>
                                 @if (Model.Crash_Severity_ID == 1)
                                 {
-                                    <p>The severity of this particular incident was very low, and the crash most likely did not result in fatalities.</p>
+                                    <p>The severity of this particular incident was very low, meaning the crash most likely did not result in any injuries or fatalities.</p>
                                 }
                                 @if (Model.Crash_Severity_ID == 2)
                                 {
-                                    <p>The severity of this particular incident was low, and the crash likely did not result in fatalities.</p>
+                                    <p>The severity of this particular incident was low, meaning the crash may have resulted in possible injuries.</p>
                                 }
                                 @if (Model.Crash_Severity_ID == 3)
                                 {
-                                    <p>The severity of this particular incident was around average, and the crash may have resulted in fatalities.</p>
+                                    <p>The severity of this particular incident was around average, meaning the crash may have resulted in minor injuries.</p>
                                 }
                                 @if (Model.Crash_Severity_ID == 4)
                                 {
-                                    <p>The severity of this particular incident was high, and the crash likely resulted in fatalities.</p>
+                                    <p>The severity of this particular incident was high, meaning the crash likely resulted in serious injuries.</p>
                                 }
                                 else if (Model.Crash_Severity_ID == 5)
                                 {
-                                    <p>The severity of this particular incident was very high, and the crash most likely resulted in fatalities.</p>
+                                    <p>The severity of this particular incident was very high, meaning the crash most likely resulted in fatalities.</p>
                                 }
                             </div>
                         </div>
