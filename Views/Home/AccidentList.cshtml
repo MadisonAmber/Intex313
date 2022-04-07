@@ -15,7 +15,7 @@
                 <div>
                   @if (User.IsInRole("Admin"))
                   {
-                      <a asp-controller="Home" asp-action="Add" class="btn btn-primary">Add new crash</a>
+                      <a asp-controller="Home" asp-action="Add" class="btn btn-primary mb-2">Add New Crash</a>
                   }
                 </div>
                 @foreach (Accident a in Model)
@@ -29,7 +29,7 @@
                                     <h5 class="card-title">Accident on @a.Main_Road_Name</h5>
                                 </div>
                                 <div class="col-md-6" style="text-align: right;">
-                                    <a asp-controller="Home" asp-action="AccidentSummary" asp-route-accidentid="@a.Crash_ID" class="btn btn-primary">Learn More</a>
+                                    <a asp-controller="Home" asp-action="AccidentSummary" asp-route-accidentid="@a.Crash_ID" class="btn btn-primary">See More</a>
                                     @if (User.IsInRole("Admin"))
                                     {
                                         <a asp-controller="Home" asp-action="Edit" asp-route-accidentid="@a.Crash_ID" class="btn btn-outline-secondary ml-2">Edit</a>
