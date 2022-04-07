@@ -15,6 +15,9 @@ namespace Intex313.Models
         private const string adminUser = "Admin";
         private const string adminPassword = "313SpencerOut:)";
 
+        private const string adminRoleName = "Admin";
+        private const string userRoleName = "User";
+
         public static async void EnsurePopulated(IApplicationBuilder app)
         {
             AccidentDbContext context = app.ApplicationServices
@@ -30,9 +33,24 @@ namespace Intex313.Models
                 .CreateScope().ServiceProvider
                 .GetRequiredService<UserManager<IdentityUser>>();
 
+            var RoleManager = app.ApplicationServices
+                .CreateScope().ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
             IdentityUser user = await userManager.FindByIdAsync(adminUser);
             IdentityUser TAuser = await userManager.FindByIdAsync(TAUser);
+
+            var adminRoleExists = await RoleManager.RoleExistsAsync(adminRoleName);
+            var userRoleExists = await RoleManager.RoleExistsAsync(userRoleName);
+
+            if (!adminRoleExists)
+            {
+                await RoleManager.CreateAsync(new IdentityRole(adminRoleName));
+            }
+
+            if (!userRoleExists)
+            {
+                await RoleManager.CreateAsync(new IdentityRole(userRoleName));
+            }
 
             if (user == null)
             {
@@ -40,7 +58,12 @@ namespace Intex313.Models
                 user.Email = "guest@gmail.com";
                 user.PhoneNumber = "123-4567";
 
-                await userManager.CreateAsync(user, adminPassword);
+                var createAdminUser = await userManager.CreateAsync(user, adminPassword);
+
+                if(createAdminUser.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(user, "Admin");
+                }
             }
             if (TAuser == null)
             {
@@ -48,7 +71,11 @@ namespace Intex313.Models
                 TAuser.Email = "email@gmail.com";
                 TAuser.PhoneNumber = "223-4567";
 
-                await userManager.CreateAsync(TAuser, TAPass);
+                var createRegularUser = await userManager.CreateAsync(TAuser, TAPass);
+                if(createRegularUser.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(TAuser, "User");
+                }
             }
         }
     }
