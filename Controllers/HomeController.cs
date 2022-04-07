@@ -236,13 +236,14 @@ namespace Intex313.Controllers
 
             return filterString;
         }
-            
+
+
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int accidentid)
         {
-            var a = context.Accidents
-                .Single(a => a.Crash_ID == id);
+            Accident a = context.Accidents
+                .Single(a => a.Crash_ID == accidentid);
 
             return View(a);
         }
@@ -254,22 +255,6 @@ namespace Intex313.Controllers
 
             return RedirectToAction("AccidentList");
         }
-
-        [HttpPost]
-        public IActionResult Edit()
-        {
-
-            if (ModelState.IsValid)
-            {
-                context.SaveChanges();
-                return RedirectToAction("AccidentList");
-            }
-            else
-            {
-                return View("Edit", a);
-            }
-        }
-
         [HttpGet]
         public IActionResult Add()
         {
