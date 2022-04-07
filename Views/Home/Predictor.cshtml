@@ -6,121 +6,135 @@
 
 <!--Form to predict the potential severity of a crash based on the following features-->
 
-<h1 class="text-center">Predict The Risk</h1>
-<h2 class="text-center">Use this predictor to calculate the potential crash severity based on road and community features</h2>
+<h1 class="text-center m-2 p-2">Predict The Risk</h1>
 
-<div class="container">
+<div class="card m-4 p-6">
+
+    <h4 class="card-title text-center p-1">Use this predictor to calculate potential crash severity based on road and community features</h4>
+
     <form method="post" asp-controller="Home" asp-action="SeverityPrediction">
-        <div class="form-group">
-            <label>What is the milepoint of the street/site in question?</label><br />
-            <input asp-for="MilePoint" /><br />
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group m-2 p-1">
+                    <label>What is the milepoint of the street/site in question?</label>
+                    <input class="form-control" asp-for="MilePoint" />
+                </div>
+
+                <div class="form-group m-2 p-1">
+                    <label>What is the latitude (In UTM)?</label>
+                    <input class="form-control" asp-for="Lat_Utm_Y" />
+                    <a href="https://coordinates-converter.com/en/decimal/40.244727,-111.645372?karte=OpenStreetMap&zoom=8">*UTM calculator</a>
+                </div>
+
+                <div class="form-group m-2 p-1">
+                    <label>What is the longitude (In UTM)?</label>
+                    <input class="form-control" asp-for="Long_Utm_X" />
+                </div>
+
+                <div class="form-group m-2 p-1">
+                    <label>Potential time of the crash (perhaps when you expect higher volumes of traffic)</label>
+                    <select asp-for="Crash_Time" class="dropdown divide">
+                        <option value="0">Select Time</option>
+                        <option value="24">12:00 AM</option>
+                        <option value="1">1:00 AM</option>
+                        <option value="2">2:00 AM</option>
+                        <option value="3">3:00 AM</option>
+                        <option value="4">4:00 AM</option>
+                        <option value="5">5:00 AM</option>
+                        <option value="6">6:00 AM</option>
+                        <option value="7">7:00 AM</option>
+                        <option value="8">8:00 AM</option>
+                        <option value="9">9:00 AM</option>
+                        <option value="10">10:00 AM</option>
+                        <option value="11">11:00 AM</option>
+                        <option value="12">12:00 PM</option>
+                        <option value="13">1:00 PM</option>
+                        <option value="14">2:00 PM</option>
+                        <option value="15">3:00 PM</option>
+                        <option value="16">4:00 PM</option>
+                        <option value="17">5:00 PM</option>
+                        <option value="18">6:00 PM</option>
+                        <option value="19">7:00 PM</option>
+                        <option value="20">8:00 PM</option>
+                        <option value="21">9:00 PM</option>
+                        <option value="22">10:00 PM</option>
+                        <option value="23">11:00 PM</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="form-group m-2 p-1">
+                    <select asp-for="Work_Zone">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <label>Is this a work zone?</label>
+                </div>
+
+                <div class="form-group m-2 p-1">
+                    <select asp-for="Pedestrian">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <label>Are there a high number of pedetrians in the area?</label>
+                </div>
+
+                <div class="form-group m-2 p-1">
+                    <select asp-for="Motorcycle">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <label>Do you expect motorcyclists on the road?</label>
+                </div>
+
+                <div class="form-group m-2 p-1">
+                    <select asp-for="Intersection">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <label>Is this an intersection?</label>
+                </div>
+
+                <div class="form-group m-2 p-1">
+                    <select asp-for="Teenage_Driver">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <label>Do you expect high numbers of teenage drivers on the road?</label>
+                </div>
+
+                <div class="form-group m-2 p-1">
+                    <select asp-for="Older_Driver">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <label>Do you expect high numbers of older drivers on the road?</label>
+                </div>
+
+                <div class="form-group m-2 p-1">
+                    <select asp-for="Night_Condition">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <label>Do you expect traffic at night on a common basis?</label>
+                </div>
+
+                <div class="form-group m-2 p-1">
+                    <select asp-for="Roadway_Departure">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <label>Is this a roadway departure zone?</label>
+                </div>
+            </div><br /><br /><br />
         </div>
 
-        <div class="form-group">
-            <label>What is the latitude?</label><br />
-            <input asp-for="Lat_Utm_Y" /><br />
+        <div class="row">
+            <div class="text-center col m-2 p-2">
+                <button class="btn btn-primary" type="submit">Calculate Crash Severity</button>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label>What is the longitude</label><br />
-            <input asp-for="Long_Utm_X" /><br />
-        </div>
-
-        <div class="form-group">
-            <label>Potential time of the crash (perhaps when you expect higher volumes of traffic)</label><br />
-            <select asp-for="Crash_Time">
-                <option value="0">Select Time</option>
-                <option value="24">12:00 AM</option>
-                <option value="1">1:00 AM</option>
-                <option value="2">2:00 AM</option>
-                <option value="3">3:00 AM</option>
-                <option value="4">4:00 AM</option>
-                <option value="5">5:00 AM</option>
-                <option value="6">6:00 AM</option>
-                <option value="7">7:00 AM</option>
-                <option value="8">8:00 AM</option>
-                <option value="9">9:00 AM</option>
-                <option value="10">10:00 AM</option>
-                <option value="11">11:00 AM</option>
-                <option value="12">12:00 PM</option>
-                <option value="13">1:00 PM</option>
-                <option value="14">2:00 PM</option>
-                <option value="15">3:00 PM</option>
-                <option value="16">4:00 PM</option>
-                <option value="17">5:00 PM</option>
-                <option value="18">6:00 PM</option>
-                <option value="19">7:00 PM</option>
-                <option value="20">8:00 PM</option>
-                <option value="21">9:00 PM</option>
-                <option value="22">10:00 PM</option>
-                <option value="23">11:00 PM</option>
-            </select><br />
-        </div>
-
-        <div class="form-group">
-            <label>Is this a work zone?</label><br />
-            <select asp-for="Work_Zone">
-                <option value="0">No</option>
-                <option value="1">Yes</option>
-            </select><br />
-        </div>
-
-        <div class="form-group">
-            <label>Are there a high number of pedetrians in the area?</label><br />
-            <select asp-for="Pedestrian">
-                <option value="0">No</option>
-                <option value="1">Yes</option>
-            </select><br />
-        </div>
-
-        <div class="form-group">
-            <label>Do you expect motorcyclists on the road?</label><br />
-            <select asp-for="Motorcycle">
-                <option value="0">No</option>
-                <option value="1">Yes</option>
-            </select><br />
-        </div>
-
-        <div class="form-group">
-            <label>Is this an intersection?</label><br />
-            <select asp-for="Intersection">
-                <option value="0">No</option>
-                <option value="1">Yes</option>
-            </select><br />
-        </div>
-
-        <div class="form-group">
-            <label>Do you expect high numbers of teenage drivers on the road?</label><br />
-            <select asp-for="Teenage_Driver">
-                <option value="0">No</option>
-                <option value="1">Yes</option>
-            </select><br />
-        </div>
-
-        <div class="form-group">
-            <label>Do you expect high numbers of older drivers on the road?</label><br />
-            <select asp-for="Older_Driver">
-                <option value="0">No</option>
-                <option value="1">Yes</option>
-            </select><br />
-        </div>
-
-        <div class="form-group">
-            <label>Do you expect traffic at night on a common basis?</label><br />
-            <select asp-for="Night_Condition">
-                <option value="0">No</option>
-                <option value="1">Yes</option>
-            </select><br />
-        </div>
-
-        <div class="form-group">
-            <label>Is this a roadway departure zone?</label><br />
-            <select asp-for="Roadway_Departure">
-                <option value="0">No</option>
-                <option value="1">Yes</option>
-            </select><br /><br />
-        </div>
-
-        <button class="btn-user" type="submit">Calculate Crash Severity</button>
     </form>
 </div>
