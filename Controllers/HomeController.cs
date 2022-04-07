@@ -471,7 +471,7 @@ namespace Intex313.Controllers
                 links.Add(new Resource 
                 {
                     Link = "https://blog.creativesafetysupply.com/getting-zone-keep-road-work-zones-safe-accident-free/", 
-                    Tag = "Work Zone Saftey Tips"
+                    Tag = "Work Zone Safety Tips"
                 });
             }
             if (data.Pedestrian == 1)
@@ -479,7 +479,7 @@ namespace Intex313.Controllers
                 links.Add(new Resource
                 {
                     Link = "https://gizmodo.com/5-ideas-to-make-roads-safer-for-cars-and-pedestrians-1533163537",
-                    Tag = "Keeping pedestrians safe when vehicles are present"
+                    Tag = "Keeping Pedestrians Safe When Vehicles are Present"
                 });
             }
             if (data.Motorcycle == 1)
@@ -487,7 +487,7 @@ namespace Intex313.Controllers
                 links.Add(new Resource
                 {
                     Link = "http://www.fema-online.eu/website/index.php/2018/01/05/how-can-we-make-our-roads-safer-for-motorcyclists/#:~:text=%20How%20can%20we%20make%20our%20roads%20safer,we%20try%20to%20find%20and%20provide...%20More%20",
-                    Tag = "Ways to make roads safer for motocycles"
+                    Tag = "Ways to Make Roads Safer for Motorcycles"
                 });
             }
             if (data.Intersection == 1)
@@ -495,7 +495,7 @@ namespace Intex313.Controllers
                 links.Add(new Resource
                 {
                     Link = "https://www.trafficsafetystore.com/blog/engineering-tips-make-city-intersections-safer/",
-                    Tag = "Making intersections safer for vehicles and pedestrians"
+                    Tag = "Making Intersections Safer for Vehicles and Pedestrians"
                 });
             }
             if (data.Teenage_Driver == 1)
@@ -503,7 +503,7 @@ namespace Intex313.Controllers
                 links.Add(new Resource
                 {
                     Link = "https://youth.gov/youth-topics/ways-promote-safe-driving-youth#:~:text=To%20address%20the%20complexity%20of%20factors%20around%20teen,and%20increasing%20the%20focus%20on%20parental%20responsibility%20%282010%29.",
-                    Tag = "How cities and communities can help teenagers drive safer"
+                    Tag = "How Cities and Communities can Help Teenagers Drive Safer"
                 });
             }
             if (data.Older_Driver == 1)
@@ -511,7 +511,7 @@ namespace Intex313.Controllers
                 links.Add(new Resource
                 {
                     Link = "https://www.cdc.gov/injury/features/older-driver-safety/index.html",
-                    Tag = "Tips for older drivers to keep roads safe"
+                    Tag = "Tips for Older Drivers to Keep Roads Safe"
                 });
             }
             if (data.Night_Condition == 1)
@@ -519,7 +519,7 @@ namespace Intex313.Controllers
                 links.Add(new Resource
                 {
                     Link = "https://www.trafficsafetystore.com/blog/7-roadway-engineering-design-strategies-to-make-roads-safer-for-drivers/",
-                    Tag = "Making roads safer for night-time driving"
+                    Tag = "Making Roads Safer for Night-Time Driving"
                 });
             }
             if (data.Roadway_Departure == 1)
@@ -527,7 +527,7 @@ namespace Intex313.Controllers
                 links.Add(new Resource
                 {
                     Link = "https://ttap.utk.edu/techtransfer/issues/33/2019summer.pdf",
-                    Tag = "Engineering tips to create safer roadway departure zones"
+                    Tag = "Engineering Tips to Create Safer Roadway Departure Zones"
                 });
             }
 
