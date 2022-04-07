@@ -37,15 +37,9 @@ namespace Intex313
                 options.MaxAge = TimeSpan.FromDays(365);
             });
 
-            var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("AccidentDbConnection"));
-            builder.UserID = Configuration["RDS_USERNAME"];
-            builder.Password = Configuration["RDS_PASSWORD"];
-            builder.DataSource = Configuration["RDS_HOSTNAME"];
-            builder.ApplicationName = Configuration["RDS_PORT"];
             services.AddDbContext<AccidentDbContext>(options =>
             {
-                options.UseNpgsql("Host=" + builder.DataSource + ";Port=" + builder.ApplicationName + ";Database=" +
-                    Configuration["RDS_DB_NAME"] + ";Username=" + builder.UserID + ";Password=" + builder.Password + ";");
+                options.UseNpgsql(Configuration["CONNECTION_STRING"]);
             });
 
             services.AddControllersWithViews();
