@@ -236,7 +236,8 @@ namespace Intex313.Controllers
 
             return filterString;
         }
-            
+
+
 
         [HttpGet]
         public IActionResult Edit(int accidentid)
@@ -246,12 +247,17 @@ namespace Intex313.Controllers
 
             return View(a);
         }
+        [HttpPost]
+        public IActionResult Edit(Accident accident)
+        {
+            context.Update(accident);
+            context.SaveChanges();
 
+            return RedirectToAction("AccidentList");
+        }
         [HttpGet]
         public IActionResult Add()
         {
-            List<Accident> accidents = context.Accidents.ToList();
-
             Accident a = new Accident();
 
             return View("Edit", a);
@@ -278,10 +284,14 @@ namespace Intex313.Controllers
             }
             else
             {
-                List<Accident> accidents = context.Accidents.ToList();
-                ViewBag.Accidents = accidents;
                 return View("Edit", a);
             }
+        }
+        [HttpGet]
+        public IActionResult Delete(int accidentid)
+        {
+            Accident ac = context.Accidents.Single(x => x.Crash_ID == accidentid);
+            return View("Confirmation", ac);
         }
 
         [HttpPost]
