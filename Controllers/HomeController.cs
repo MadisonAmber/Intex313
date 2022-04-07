@@ -320,86 +320,109 @@ namespace Intex313.Controllers
         [Authorize]
         public IActionResult AccidentSummary(int accidentid)
         {
-            List<String> accidentTypes = new List<String>();
+            List<string> accidentTypes = new List<string>();
+            List<int> numOfAccidents = new List<int>();
+            
 
             Accident a = context.Accidents.FirstOrDefault(x => x.Crash_ID == accidentid);
 
             if(a.Work_Zone_Related == true)
             {
                 accidentTypes.Add("Work Zone Related");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Work_Zone_Related == true).Count());
             }
             if(a.Pedestrian_Involved == true)
             {
                 accidentTypes.Add("Pedestrian Involved");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Pedestrian_Involved == true).Count());
             }
             if (a.Bicyclist_Involved == true)
             {
                 accidentTypes.Add("Bicyclist Involved");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Bicyclist_Involved == true).Count());
             }
             if (a.Motorcycle_Involved == true)
             {
                 accidentTypes.Add("Motorcycle Involved");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Motorcycle_Involved == true).Count());
             }
             if (a.Improper_Restraint == true)
             {
                 accidentTypes.Add("Improper Restraint");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Improper_Restraint == true).Count());
             }
             if (a.Unrestrained == true)
             {
                 accidentTypes.Add("Unrestrained");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Unrestrained == true).Count());
             }
             if (a.DUI == true)
             {
                 accidentTypes.Add("DUI (Driving Under the Influence)");
+                numOfAccidents.Add(context.Accidents.Where(x => x.DUI == true).Count());
             }
             if (a.Intersection_Related == true)
             {
                 accidentTypes.Add("Intersection Related");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Intersection_Related == true).Count());
             }
             if (a.Wild_Animal_Related == true)
             {
                 accidentTypes.Add("Wild Animal Related");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Wild_Animal_Related == true).Count());
             }
             if (a.Domestic_Animal_Related == true)
             {
                 accidentTypes.Add("Domestic Animal Related");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Domestic_Animal_Related == true).Count());
             }
             if (a.Overturn_Rollover == true)
             {
                 accidentTypes.Add("Overturn Rollover");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Overturn_Rollover == true).Count());
             }
             if (a.Commercial_Motor_Veh_Involved == true)
             {
                 accidentTypes.Add("Commercial Motor Vehicle Involved");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Commercial_Motor_Veh_Involved == true).Count());
             }
             if (a.Teenage_Driver_Involved == true)
             {
                 accidentTypes.Add("Teenage Driver Involved");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Teenage_Driver_Involved == true).Count());
             }
             if (a.Older_Driver_Involved == true)
             {
                 accidentTypes.Add("Older Driver Involved");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Older_Driver_Involved == true).Count());
             }
             if (a.Night_Dark_Condition == true)
             {
                 accidentTypes.Add("Nighttime/Dark Outside");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Night_Dark_Condition == true).Count());
             }
             if (a.Single_Vehicle == true)
             {
                 accidentTypes.Add("Single Vehicle");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Single_Vehicle == true).Count());
             }
             if (a.Distracted_Driving == true)
             {
                 accidentTypes.Add("Distracted Driving");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Distracted_Driving == true).Count());
             }
             if (a.Drowsy_Driving == true)
             {
                 accidentTypes.Add("Drowsy Driving");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Drowsy_Driving == true).Count());
             }
             if (a.Roadway_Departure == true)
             {
                 accidentTypes.Add("Departed from the Roadway");
+                numOfAccidents.Add(context.Accidents.Where(x => x.Roadway_Departure == true).Count());
             }
+
+            ViewBag.AccidentCounts = numOfAccidents;
 
             ViewBag.AccidentTypes = accidentTypes;
             return View(a);
