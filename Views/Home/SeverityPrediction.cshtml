@@ -4,8 +4,8 @@
 
 @model Prediction
 <!--Displays the predicted value and helpful resources-->
-<div class="container">
-    <h1>Potential Crash Severity: @Model.PredictedValue</h1>
+<div class="container p-2">
+    <h1 class="p-2">Potential Crash Severity: @Model.PredictedValue</h1>
 
     <!--Display message based on crash severity-->
     @if (Model.PredictedValue == "1" || Model.PredictedValue == "2")
