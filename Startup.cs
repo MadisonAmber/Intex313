@@ -36,8 +36,8 @@ namespace Intex313
             builder.ApplicationName = Configuration["RDS_PORT"];
             services.AddDbContext<AccidentDbContext>(options =>
             {
-                options.UseNpgsql("Host=" + builder.DataSource + ";Port=" + builder.ApplicationName + ";Database=" + 
-                    Configuration["RDS_DB_NAME"]+";Username="+builder.UserID+";Password="+builder.Password+";") ;
+                options.UseNpgsql("Host=" + builder.DataSource + ";Port=" + builder.ApplicationName + ";Database=" +
+                    Configuration["RDS_DB_NAME"] + ";Username=" + builder.UserID + ";Password=" + builder.Password + ";");
             });
 
             services.AddControllersWithViews();
@@ -81,6 +81,15 @@ namespace Intex313
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseXXssProtection(options => options.EnabledWithBlockMode());
+            app.UseCsp(opts => opts
+                .BlockAllMixedContent()
+                    .ScriptSources(s => s.Self())
+                    .ScriptSources(s => s.UnsafeInline())
+                    .ScriptSources(s => s.CustomSources("https://use.fontawesome.com"))
+                    .ScriptSources(s => s.CustomSources("https://kit.fontawesome.com"))
+                    .ConnectSources(s => s.CustomSources("*.fontawesome.com"))
+                );
 
             app.UseEndpoints(endpoints =>
             {
@@ -88,7 +97,7 @@ namespace Intex313
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                
+
             });
             IdentitySeedData.EnsurePopulated(app);
         }
