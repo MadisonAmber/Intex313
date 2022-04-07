@@ -24,10 +24,12 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.18" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Views\Home\Admin\" />
+    <None Remove="NWebsec.AspNetCore.Middleware" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Home\Admin\" />
