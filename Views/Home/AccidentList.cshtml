@@ -38,7 +38,7 @@
                                 </div>
                             </div>
 
-                            <p class="card-text">This accident occurred in @a.City (@a.County_Name County).</p>
+                            <p class="card-text">This accident occurred in <span style="text-transform: capitalize;">@a.City.ToLower()</span> (<span style="text-transform: capitalize;">@a.County_Name.ToLower()</span> county).</p>
                             
 
                             @if (a.Work_Zone_Related == true)
