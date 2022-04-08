@@ -186,14 +186,13 @@
                         @RenderBody()
                     </main>
 
-                    <partial name="_CookiesConsentPartial" />
                 </div>
                 <!-- /.container-fluid -->
                 <!-- Footer -->
                 <footer class="page-footer font-small">
                     <div class="footer-copyright text-center py-3">
                         <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; Intex II 2022</span>
+                            <span>Copyright &copy; Intex II 2022 - <a asp-controller="Home" asp-action="Privacy">Privacy Policy</a> - <a asp-controller="Home" asp-action="TermsConditions">Terms & Conditions</a></span>
                         </div>
                     </div>
                     <!-- Copyright -->
@@ -209,6 +208,7 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+    <partial name="_CookiesConsentPartial" />
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

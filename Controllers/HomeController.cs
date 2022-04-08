@@ -22,7 +22,7 @@ namespace Intex313.Controllers
 {
     public class HomeController : Controller
     {
-        private AccidentDbContext context{ get; set; }
+        private AccidentDbContext context { get; set; }
 
         //Instance of an Inference Session
         private InferenceSession _session { get; set; }
@@ -34,9 +34,9 @@ namespace Intex313.Controllers
         public IActionResult Index(int accidentid)
         {
             List<Accident> accidents = new List<Accident>();
-            
+
             return View(accidents);
-        
+
         }
 
         public IActionResult Privacy()
@@ -67,7 +67,8 @@ namespace Intex313.Controllers
 
                 }
 
-            } else
+            }
+            else
             {
                 fileName = fileName + "out_filter";
             }
@@ -99,23 +100,24 @@ namespace Intex313.Controllers
         {
 
             Accident f = new Accident();
-            if(filter != "")
+            if (filter != "")
             {
                 try
                 {
                     f = JsonConvert.DeserializeObject<Accident>(filter);
-                } catch(Exception e)
+                }
+                catch (Exception e)
                 {
 
                 }
-                
+
             }
             return getAccidentsByFilter(pageNum, f);
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult AccidentList(Accident filter, int pageNum, string searchInput = "", string searchInputField = "") 
+        public IActionResult AccidentList(Accident filter, int pageNum, string searchInput = "", string searchInputField = "")
         {
             return getAccidentsByFilter(pageNum, filter, searchInput, searchInputField);
         }
@@ -183,28 +185,29 @@ namespace Intex313.Controllers
             string filterString = "SELECT * FROM public.\"Accidents\" WHERE ";
             int numFilterParams = 0;
 
-            foreach(var property in filter.GetType().GetProperties())
+            foreach (var property in filter.GetType().GetProperties())
             {
-                switch(property.PropertyType.Name.ToString())
+                switch (property.PropertyType.Name.ToString())
                 {
                     case "Boolean":
                         bool boolValue = false;
                         try
                         {
                             boolValue = Convert.ToBoolean(property.GetValue(filter));
-                            
-                        } catch (Exception e)
+
+                        }
+                        catch (Exception e)
                         {
                             boolValue = false;
                         }
-                        
-                        if(boolValue == true)
+
+                        if (boolValue == true)
                         {
                             string fieldName = property.Name;
-                            if(numFilterParams > 0)
+                            if (numFilterParams > 0)
                             {
                                 filterString = filterString + " AND ";
-                            } 
+                            }
 
                             filterString = $"{filterString}\"{fieldName}\" = true";
 
@@ -213,12 +216,12 @@ namespace Intex313.Controllers
                         break;
                     case "String":
                         string propFromModel = Convert.ToString(property?.GetValue(filter));
-                        if(propFromModel != null & propFromModel != "" & (InputValueField == null || InputValueField == ""))
+                        if (propFromModel != null & propFromModel != "" & (InputValueField == null || InputValueField == ""))
                         {
                             InputValueField = property.Name;
                             InputValue = propFromModel;
                         }
-                        if(InputValueField == property.Name)
+                        if (InputValueField == property.Name)
                         {
                             if (numFilterParams > 0)
                             {
@@ -230,7 +233,7 @@ namespace Intex313.Controllers
 
                             ViewBag.SearchInput = InputValue;
                             ViewBag.SearchInputField = property.Name;
-                            
+
                             filter.City = property.Name == "City" ? InputValue : "";
                             filter.Main_Road_Name = property.Name == "Main_Road_Name" ? InputValue : "";
                             filter.County_Name = property.Name == "County_Name" ? InputValue : "";
@@ -242,7 +245,7 @@ namespace Intex313.Controllers
                 }
             }
 
-            if(numFilterParams == 0)
+            if (numFilterParams == 0)
             {
                 filterString = "SELECT * FROM public.\"Accidents\"";
             }
@@ -328,16 +331,16 @@ namespace Intex313.Controllers
         {
             List<string> accidentTypes = new List<string>();
             List<int> numOfAccidents = new List<int>();
-            
+
 
             Accident a = context.Accidents.FirstOrDefault(x => x.Crash_ID == accidentid);
 
-            if(a.Work_Zone_Related == true)
+            if (a.Work_Zone_Related == true)
             {
                 accidentTypes.Add("Work Zone Related");
                 numOfAccidents.Add(context.Accidents.Where(x => x.Work_Zone_Related == true).Count());
             }
-            if(a.Pedestrian_Involved == true)
+            if (a.Pedestrian_Involved == true)
             {
                 accidentTypes.Add("Pedestrian Involved");
                 numOfAccidents.Add(context.Accidents.Where(x => x.Pedestrian_Involved == true).Count());
@@ -468,9 +471,9 @@ namespace Intex313.Controllers
             //Add records based off of conditions being met
             if (data.Work_Zone == 1)
             {
-                links.Add(new Resource 
+                links.Add(new Resource
                 {
-                    Link = "https://blog.creativesafetysupply.com/getting-zone-keep-road-work-zones-safe-accident-free/", 
+                    Link = "https://blog.creativesafetysupply.com/getting-zone-keep-road-work-zones-safe-accident-free/",
                     Tag = "Work Zone Safety Tips"
                 });
             }

@@ -1,14 +1,14 @@
-﻿@{
-    Layout = null;
-}
-@using Microsoft.AspNetCore.Http.Features
+﻿@using Microsoft.AspNetCore.Http.Features
+
 @{
     var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
     var showBanner = !consentFeature?.CanTrack ?? false;
     var cookieString = consentFeature?.CreateConsentCookie();
 }
+
 @if (showBanner)
 {
+
     <div class="d-flex justify-content-center container mt-5" style="bottom: 10px; position: fixed">
         <div class="row">
             <div class="col-md-10">
@@ -29,11 +29,24 @@
             </div>
         </div>
     </div>
+
+<div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert" style="position: fixed; bottom: 10px; z-index: 1000; left: 50px; right: 50px;">
+    <p>Cookies & Privacy</p>
+    <p>
+        <i class="fa-solid fa-cookie-bite fa-2xl"></i>
+        This site only stores cookies necessary for site functionality. Do you wish to continue?
+    </p> <a asp-controller="Home" asp-action="Privacy">Learn More</a>.
+    <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
+        <span aria-hidden="true">Accept</span>
+    </button>
+</div>
+
     <script>
-    (function () {
-            var button = document.querySelector("#cookieConsent button[data - cookie - string]");
+        (function () {
+            var button = document.querySelector("#cookieConsent button[data-cookie-string]");
             button.addEventListener("click", function (event) {
                 document.cookie = button.dataset.cookieString;
             }, false);
-        })();</script>
+        })();
+    </script>
 }
