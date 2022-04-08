@@ -30,12 +30,7 @@ namespace Intex313
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddHsts(options =>
-            {
-                options.Preload = true;
-                options.IncludeSubDomains = true;
-                options.MaxAge = TimeSpan.FromDays(365);
-            });
+
 
             services.AddDbContext<AccidentDbContext>(options =>
             {
@@ -53,7 +48,7 @@ namespace Intex313
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.MinimumSameSitePolicy = SameSiteMode.Strict;
             });
 
             //Add for ONNX file
@@ -68,6 +63,13 @@ namespace Intex313
             {
                 options.Password.RequiredLength = 8;
             });
+            services.AddHsts(options =>
+            {
+                options.ExcludedHosts.Clear();
+                options.Preload = true;
+                options.IncludeSubDomains = true;
+                options.MaxAge = TimeSpan.FromDays(60);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,6 +83,8 @@ namespace Intex313
             //{            }
             app.UseExceptionHandler("/Home/Error");
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseForwardedHeaders();
+
             app.UseHsts();
 
             app.UseStaticFiles();
@@ -108,7 +112,6 @@ namespace Intex313
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
             });
-            IdentitySeedData.EnsurePopulated(app);
         }
     }
 }
