@@ -5,6 +5,7 @@
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 
+<!--View for editing the individual crashes-->
 <form method="POST">
     <div class="form-group mb-1">
         <input type="hidden" asp-for="@Model.Crash_ID" />
