@@ -23,7 +23,7 @@ namespace Intex313.Models
         public string City { get; set; }
         public string County_Name { get; set; }
         [Range(1, 5, ErrorMessage = "Value must be between 1 and 5")]
-        public int? Crash_Severity_ID { get; set; }
+        public int Crash_Severity_ID { get; set; }
         public bool Work_Zone_Related { get; set; }
         public bool Pedestrian_Involved { get; set; }
         public bool Bicyclist_Involved { get; set; }

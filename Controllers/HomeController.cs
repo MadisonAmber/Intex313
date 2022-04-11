@@ -182,7 +182,7 @@ namespace Intex313.Controllers
         [Authorize]
         private string BuildQueryFilter(Accident filter, string InputValue = "", string InputValueField = "")
         {
-            string filterString = "SELECT * FROM public.\"Accidents\" WHERE ";
+            string filterString = "SELECT * FROM \"Accidents\" WHERE ";
             int numFilterParams = 0;
 
             foreach (var property in filter.GetType().GetProperties())
@@ -238,6 +238,19 @@ namespace Intex313.Controllers
                             filter.Main_Road_Name = property.Name == "Main_Road_Name" ? InputValue : "";
                             filter.County_Name = property.Name == "County_Name" ? InputValue : "";
                             filter.Route = property.Name == "Route" ? InputValue : "";
+                        }
+                        break;
+                    case "Int32":
+                        int intFromModel = Convert.ToInt32(property?.GetValue(filter));
+                        if (intFromModel != 0)
+                        {
+                            if (numFilterParams > 0)
+                            {
+                                filterString = filterString + " AND ";
+                            }
+
+                            filterString = $"{filterString}\"{property.Name}\" = {intFromModel}";
+                            numFilterParams = numFilterParams + 1;
                         }
                         break;
                     default:

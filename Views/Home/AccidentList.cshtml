@@ -23,10 +23,14 @@
 
                     <div class="card mb-2">
 
+
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h5 class="card-title">Accident on @a.Main_Road_Name</h5>
+                                    <h5 class="card-title">
+                                        Accident on @a.Main_Road_Name
+                                    </h5>
+
                                 </div>
                                 <div class="col-md-6" style="text-align: right;">
                                     <a asp-controller="Home" asp-action="AccidentSummary" asp-route-accidentid="@a.Crash_ID" class="btn btn-primary">See More</a>
@@ -38,8 +42,31 @@
                                 </div>
                             </div>
 
+                            @if (a.Crash_Severity_ID == 1)
+                            {
+                                <span class="badge badge-info">Severity 1 - Very Low</span>
+                            }
+                            else if (a.Crash_Severity_ID == 2)
+                            {
+                                <span class="badge badge-info">Severity 2 - Low</span>
+                            }
+                            else if (a.Crash_Severity_ID == 3)
+                            {
+                                <span class="badge badge-warning">Severity 3 - Moderate</span>
+                            }
+                            else if (a.Crash_Severity_ID == 4)
+                            {
+                                <span class="badge badge-danger">Severity 4 - High</span>
+                            }
+                            else if (a.Crash_Severity_ID == 5)
+                            {
+                                <span class="badge badge-danger">Severity 5 - Very High</span>
+                            }
+
+                            <hr />
+
                             <p class="card-text">This accident occurred in <span style="text-transform: capitalize;">@a.City.ToLower()</span> (<span style="text-transform: capitalize;">@a.County_Name.ToLower()</span> county).</p>
-                            
+
 
                             @if (a.Work_Zone_Related == true)
                             {

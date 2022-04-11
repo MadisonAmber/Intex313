@@ -79,8 +79,12 @@ body {
     border-radius: 5px;
     padding: 5px;
     background-color: #fff;
+    
+}
+
+.filter-items-container {
+    height: calc(100vh - 317px);
     overflow-y: auto;
-    height: calc(100vh - 234px);
 }
 
 @media (max-height: 900px) {
@@ -88,8 +92,8 @@ body {
         height: calc(100vh - 140px);
     }
 
-    .filter-container {
-        height: calc(100vh - 140px);
+    .filter-items-container {
+        height: calc(100vh - 222px);
     }
 }
 
