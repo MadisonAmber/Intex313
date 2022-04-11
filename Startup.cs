@@ -38,7 +38,7 @@ namespace Intex313
             });
 
             services.AddControllersWithViews();
-            
+
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddDefaultTokenProviders()
                 .AddDefaultUI()
@@ -70,6 +70,7 @@ namespace Intex313
                 options.IncludeSubDomains = true;
                 options.MaxAge = TimeSpan.FromDays(60);
             });
+            services.AddSingleton<IConfiguration>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -93,7 +94,7 @@ namespace Intex313
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseXXssProtection(options => options.EnabledWithBlockMode());
             app.UseCsp(opts => opts
                 .BlockAllMixedContent()
